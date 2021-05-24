@@ -1,127 +1,96 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import formStyles from './form.module.css';
+import React from "react";
+import PropTypes from "prop-types";
+import styled from "@emotion/styled";
 
-function FormField({
-    formdata,
-    change,
-    id,
-    altStyle,
-    styles,
-    inputClass,
-    altFieldSet,
-}) {
-    const showError = () => {
-        let errorMessage = null;
+const FieldSet = styled.fieldset`
+  box-sizing: border-box;
+  border-radius: 4px;
+  height: 3rem;
+  padding: 0 5px;
+  width: 22rem;
+`;
+const Legend = styled.legend`
+  font-family: "Open Sans, sans-serif";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.4px;
+`;
+const Input = styled.input`
+  box-shadow: #fff 0px 0px 0px 9999px inset;
+  width: 100%;
+  height: 2rem;
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  margin-top: -3px;
+`;
+const Error = styled.div`
+  color: red;
+  color: red;
+  font-size: 12px;
+  margin-top: 4px;
+`;
+function FormField({ formdata, change, id, altFieldSet }) {
+  const showError = () => {
+    let errorMessage = null;
 
-        if (formdata.validation && !formdata.valid) {
-            errorMessage = (
-                <div className={formStyles.errorMessage}>
-                    {formdata.validationMessage}
-                </div>
-            );
-        }
+    if (formdata.validation && !formdata.valid) {
+      errorMessage = <Error>{formdata.validationMessage}</Error>;
+    }
 
-        return errorMessage;
-    };
+    return errorMessage;
+  };
 
-    const renderForm = () => {
-        let template = null;
-        switch (formdata.element) {
-            case 'fieldset':
-                template = (
-                    <div>
-                        <fieldset
-                            className={`${formStyles.fieldSetWrap} ${altFieldSet}`}
-                        >
-                            <legend className={formStyles.legend}>
-                                {formdata.config.label}
-                            </legend>
-                            <input
-                                {...formdata.config}
-                                value={formdata.value}
-                                style={{
-                                    boxShadow: '#fff 0px 0px 0px 9999px inset',
-                                    ...styles,
-                                }}
-                                onBlur={event =>
-                                    change({ event, id, blur: true })
-                                }
-                                onChange={event => change({ event, id })}
-                                id={id}
-                                className={`${inputClass} ${formStyles.defaultForm}`}
-                            />
-                            {showError()}
-                        </fieldset>
-                    </div>
-                );
-                break;
-            case 'checkbox':
-                template = (
-                    <div>
-                        <input
-                            type="checkbox"
-                            onChange={event => change({ event, id })}
-                            {...formdata.config}
-                            value={formdata.value}
-                            id={id}
-                            className={`${inputClass} ${formStyles.defaultCheckForm}`}
-                        />
-                    </div>
-                );
-                break;
-            case 'select':
-                template = (
-                    <div className={altStyle && altStyle}>
-                        {formdata.showlabel ? (
-                            <div className="option_label">
-                                {formdata.config.label}
-                            </div>
-                        ) : null}
-                        <select
-                            value={formdata.value}
-                            onBlur={event => change({ event, id, blur: true })}
-                            onChange={event => change({ event, id })}
-                            className={inputClass}
-                        >
-                            <option value="">Select one</option>
-                            {formdata.config.options.map(item => (
-                                <option key={item.key} value={item.value}>
-                                    {item.value}
-                                </option>
-                            ))}
-                        </select>
-                        {showError()}
-                    </div>
-                );
-                break;
-            default:
-                template = '';
-                break;
-        }
-        return template;
-    };
+  const renderForm = () => {
+    let template = null;
+    switch (formdata.element) {
+      case "fieldset":
+        template = (
+          <div>
+            <FieldSet>
+              <Legend>{formdata.config.label}</Legend>
+              <Input
+                {...formdata.config}
+                value={formdata.value}
+                onBlur={(event) => change({ event, id, blur: true })}
+                onChange={(event) => change({ event, id })}
+                id={id}
+              />
+              {showError()}
+            </FieldSet>
+          </div>
+        );
+        break;
+      default:
+        template = "";
+        break;
+    }
+    return template;
+  };
 
-    return <>{renderForm()}</>;
+  return <>{renderForm()}</>;
 }
 
-FormField.displayName = 'FormField';
+FormField.displayName = "FormField";
 
 FormField.propTypes = {
-    formdata: PropTypes.shape({
-        config: PropTypes.object,
-        validation: PropTypes.object,
-        valid: PropTypes.bool,
-        validationMessage: PropTypes.string,
-        element: PropTypes.string,
-        value: PropTypes.string,
-        showlabel: PropTypes.bool,
-    }),
-    change: PropTypes.func,
-    id: PropTypes.string,
-    altStyle: PropTypes.object,
-    styles: PropTypes.object,
-    inputClass: PropTypes.string,
-    altFieldSet: PropTypes.string,
+  formdata: PropTypes.shape({
+    config: PropTypes.object,
+    validation: PropTypes.object,
+    valid: PropTypes.bool,
+    validationMessage: PropTypes.string,
+    element: PropTypes.string,
+    value: PropTypes.string,
+    showlabel: PropTypes.bool,
+  }),
+  change: PropTypes.func,
+  id: PropTypes.string,
+  altStyle: PropTypes.object,
+  styles: PropTypes.object,
+  inputClass: PropTypes.string,
+  altFieldSet: PropTypes.string,
 };
 export default FormField;
