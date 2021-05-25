@@ -2,8 +2,8 @@ import React from "react";
 import styled from "@emotion/styled";
 
 const Button = styled.button`
-  width: 12rem;
-  height: 4.2rem;
+  width: ${(props) => (props.width ? props.width : "12rem")};
+  height: ${(props) => (props.height ? props.height : "4.2rem")};
   box-shadow: rgb(50 50 93 / 10%) 0px 7px 14px 0px,
     rgb(0 0 0 / 7%) 0px 3px 6px 0px;
   font-weight: 600;
@@ -24,6 +24,9 @@ const MyButton = (props) => {
       bgColor={props.bgColor}
       color={props.color}
       boxShadow={props.boxShadow}
+      width={props.width}
+      height={props.height}
+      style={props.style}
     >
       {props.title}
     </Button>

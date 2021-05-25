@@ -29,7 +29,6 @@ const Input = styled.input`
 `;
 const Error = styled.div`
   color: red;
-  color: red;
   font-size: 12px;
   margin-top: 4px;
 `;
@@ -61,6 +60,20 @@ function FormField({ formdata, change, id, altFieldSet }) {
               />
               {showError()}
             </FieldSet>
+          </div>
+        );
+        break;
+      case "input":
+        template = (
+          <div>
+            <Input
+              {...formdata.config}
+              value={formdata.value}
+              onBlur={(event) => change({ event, id, blur: true })}
+              onChange={(event) => change({ event, id })}
+              id={id}
+            />
+            {showError()}
           </div>
         );
         break;

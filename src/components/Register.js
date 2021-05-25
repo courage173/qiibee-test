@@ -46,6 +46,7 @@ const ButtonContainer = styled.div`
   margin-top: 10px;
 `;
 const Register = () => {
+  const [form, setForm] = useState("brand");
   const [userForm, setUserForm] = useState({
     formdata: {
       email: {
@@ -148,7 +149,7 @@ const Register = () => {
           name: "loyalty",
           type: "number",
           label: "Loyalty point",
-          placeholder: "Enter brand name",
+          placeholder: 0,
         },
         validation: {
           required: true,
@@ -180,12 +181,17 @@ const Register = () => {
   });
 
   const updateForm = (element) => {
-    setUserForm({ loginErrorMessage: "", message: "" });
-    const newFormdata = update(element, userForm.formdata, "login");
-    setUserForm({
-      formError: false,
-      formdata: newFormdata,
-    });
+    const formdata = form === "user" ? userForm.formdata : brand.formdata;
+    const newFormdata = update(element, formdata, "register");
+    form === "user"
+      ? setUserForm({
+          formError: false,
+          formdata: newFormdata,
+        })
+      : setBrandForm({
+          formError: false,
+          formdata: newFormdata,
+        });
   };
 
   const renderBrandForm = () => {
@@ -212,46 +218,60 @@ const Register = () => {
             change={(element) => updateForm(element)}
           />
         </FormContainer>
+        <FormContainer>
+          <FormField
+            id={"password"}
+            formdata={brand.formdata.password}
+            change={(element) => updateForm(element)}
+          />
+        </FormContainer>
       </>
     );
   };
+  const renderUserForm = () => (
+    <>
+      <FormContainer>
+        <FormField
+          id={"email"}
+          formdata={userForm.formdata.email}
+          change={(element) => updateForm(element)}
+          styles={{
+            marginTop: "0 20px",
+          }}
+        />
+      </FormContainer>
+      <FormContainer>
+        <FormField
+          id={"name"}
+          formdata={userForm.formdata.name}
+          change={(element) => updateForm(element)}
+          styles={{
+            marginTop: "0 20px",
+          }}
+        />
+      </FormContainer>
+
+      <FormContainer>
+        <FormField
+          id={"password"}
+          formdata={userForm.formdata.password}
+          change={(element) => updateForm(element)}
+          styles={{
+            marginTop: "0 20px",
+          }}
+        />
+      </FormContainer>
+    </>
+  );
   return (
     <AuthLayout>
       <Container>
         <TopSection>
-          <HeadText>Create a user account</HeadText>
+          <HeadText>
+            Create a {form === "user" ? "user" : "brand"} account
+          </HeadText>
         </TopSection>
-        <FormContainer>
-          <FormField
-            id={"email"}
-            formdata={userForm.formdata.email}
-            change={(element) => updateForm(element)}
-            styles={{
-              marginTop: "0 20px",
-            }}
-          />
-        </FormContainer>
-        <FormContainer>
-          <FormField
-            id={"name"}
-            formdata={userForm.formdata.name}
-            change={(element) => updateForm(element)}
-            styles={{
-              marginTop: "0 20px",
-            }}
-          />
-        </FormContainer>
-
-        <FormContainer>
-          <FormField
-            id={"password"}
-            formdata={userForm.formdata.password}
-            change={(element) => updateForm(element)}
-            styles={{
-              marginTop: "0 20px",
-            }}
-          />
-        </FormContainer>
+        {form === "user" ? renderUserForm() : renderBrandForm()}
         <AccountWrap>
           <Span>Already have an account?</Span>
           <Span>
