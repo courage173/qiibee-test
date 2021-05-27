@@ -1,5 +1,5 @@
 import React from "react";
-import SingleBrand from "../components/SingleBrand";
+import SingleBrand from "../components/brands/SingleBrand";
 
 const Brand = () => {
   return <SingleBrand />;

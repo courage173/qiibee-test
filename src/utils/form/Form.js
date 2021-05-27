@@ -8,6 +8,9 @@ const FieldSet = styled.fieldset`
   height: 3rem;
   padding: 0 5px;
   width: 22rem;
+  @media (max-width: 768px) {
+    width: 19rem;
+  }
 `;
 const Legend = styled.legend`
   font-family: "Open Sans, sans-serif";

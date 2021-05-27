@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
-import DashboardLayout from "../HOC/DashboardLayout";
+import DashboardLayout from "../../HOC/DashboardLayout";
 
-import cokeLogo from "../assets/images/coca-cola.jpeg";
-import MyButton from "../utils/Button";
+import cokeLogo from "../../assets/images/coca-cola.jpeg";
+import MyButton from "../../utils/Button";
 
 const Wrapper = styled.div`
   height: 100%;

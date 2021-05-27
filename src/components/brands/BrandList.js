@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
-import BrandCard from "../utils/BrandCard";
-import { brands } from "../utils/data";
+import BrandCard from "../../utils/BrandCard";
+import { brands } from "../../utils/data";
 
 const Container = styled.div`
   background: #f5f5f5;
@@ -12,6 +12,11 @@ const Container = styled.div`
   display: flex;
   flex-flow: wrap;
   justify-content: center;
+  padding: 50px 0;
+  @media (max-width: 768px) {
+    box-shadow: none;
+    height: 100%;
+  }
 `;
 
 const BrandList = () => {

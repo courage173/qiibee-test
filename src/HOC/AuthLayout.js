@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { withRouter } from "react-router-dom";
 import styled from "@emotion/styled";
 import bgImage from "../assets/images/bg-img.png";
 import MyButton from "../utils/Button";
@@ -7,6 +8,10 @@ const Container = styled.div`
   display: flex;
   width: 100%;
   height: 100%;
+  @media (max-width: 768px) {
+    flex-direction: column;
+    height: unset;
+  }
 `;
 
 const LeftSection = styled.div`
@@ -23,8 +28,13 @@ const LeftSection = styled.div`
       rgba(134, 185, 255, 0.85)
     ),
     url(${bgImage});
+
   background-repeat: no-repeat;
   background-size: cover;
+  @media (max-width: 768px) {
+    width: 100%;
+    height: 21rem;
+  }
 `;
 
 const IntroText = styled.h2`
@@ -34,15 +44,22 @@ const IntroText = styled.h2`
   font-weight: 400;
   font-family: Open Sans;
   text-align: center;
+  @media (max-width: 768px) {
+    font-size: 23px;
+  }
 `;
 
 const RightSection = styled.div`
   width: 60%;
   padding: 30px;
+  @media (max-width: 768px) {
+    width: 100% !important;
+    padding: 0;
+  }
 `;
 const Header = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
 `;
 const HeaderText = styled.h4`
@@ -56,9 +73,59 @@ const ChildrenWrap = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 50px;
+  @media (max-width: 768px) {
+    margin-top: 0;
+  }
+`;
+
+const Label = styled.label`
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 26px;
+`;
+
+const ToggleSpan = styled.span`
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  border-radius: 34px;
+  &:after {
+    position: absolute;
+    content: "";
+    height: 19px;
+    width: 19px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+    border-radius: 50%;
+    transform: ${(props) => props.toggle && "translateX(24px)"};
+  }
+`;
+const ButtonWrap = styled.div`
+  @media (max-width: 768px) {
+    display: none !important;
+  }
+`;
+const ToggleWrap = styled.div`
+  @media (max-width: 768px) {
+    margin-left: 10px;
+  }
 `;
 
 const AuthLayout = (props) => {
+  const [toggle, setToggle] = useState(false);
+  const handleRoute = () => {
+    props.history.push(props.login ? "/" : "/login");
+  };
   return (
     <Container>
       <LeftSection>
@@ -67,19 +134,64 @@ const AuthLayout = (props) => {
       </LeftSection>
       <RightSection>
         <Header>
-          <HeaderText>
-            {props.user
-              ? "Switch to create a brand account"
-              : "Switch to create a user account"}
-          </HeaderText>
-          <MyButton
-            title={props.login ? "Create Brand account" : "Create User account"}
-          />
+          <ToggleWrap
+            style={{
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <Label
+              className="Toggler-wrap"
+              style={{
+                marginRight: "10px",
+              }}
+            >
+              <input
+                className="btn-toggler"
+                type="checkbox"
+                onChange={() => setToggle(!toggle)}
+                name="hideIncident"
+                id="hideIncident"
+                checked={toggle}
+                style={{
+                  opacity: 0,
+                  width: 0,
+                  height: 0,
+                }}
+              />
+              <ToggleSpan
+                className="TogglerBtn-slider round"
+                toggle={toggle}
+              ></ToggleSpan>
+            </Label>
+            <HeaderText>
+              {toggle
+                ? "Switch to create a user account"
+                : "Switch to create a brand account"}
+            </HeaderText>
+          </ToggleWrap>
+          <ButtonWrap
+            style={{
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <HeaderText>
+              {props.login
+                ? "Don't have an account?"
+                : "Already have an account"}
+            </HeaderText>
+            <MyButton
+              title={props.login ? "Create account" : "Sign in"}
+              runAction={handleRoute}
+              font={"15px"}
+            />
+          </ButtonWrap>
         </Header>
-        <ChildrenWrap>{props.children}</ChildrenWrap>
+        <ChildrenWrap switch={toggle}>{props.children}</ChildrenWrap>
       </RightSection>
     </Container>
   );
 };
 
-export default AuthLayout;
+export default withRouter(AuthLayout);

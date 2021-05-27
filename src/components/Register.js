@@ -16,6 +16,10 @@ const Container = styled.div`
   align-items: center;
   flex-direction: column;
   width: 25rem;
+  @media (max-width: 768px) {
+    box-shadow: none;
+    padding: 0;
+  }
 `;
 const HeadText = styled.h4`
   font-size: 35px;
@@ -23,6 +27,9 @@ const HeadText = styled.h4`
   /* color: #b0b0b0; */
   margin-bottom: 0;
   margin-top: 10px;
+  @media (max-width: 768px) {
+    font-size: 30px;
+  }
 `;
 const Span = styled.span`
   font-weight: 400;
@@ -41,11 +48,25 @@ const FormContainer = styled.div`
 
 const AccountWrap = styled.div`
   width: 22rem;
+  @media (min-width: 768px) {
+    display: none;
+  }
+  @media (max-width: 768px) {
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+  }
 `;
 const ButtonContainer = styled.div`
   margin-top: 10px;
+
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 `;
-const Register = () => {
+const Register = (props) => {
   const [form, setForm] = useState("brand");
   const [userForm, setUserForm] = useState({
     formdata: {
@@ -193,7 +214,7 @@ const Register = () => {
           formdata: newFormdata,
         });
   };
-
+  const handleSubmit = () => {};
   const renderBrandForm = () => {
     return (
       <>
@@ -272,22 +293,31 @@ const Register = () => {
           </HeadText>
         </TopSection>
         {form === "user" ? renderUserForm() : renderBrandForm()}
-        <AccountWrap>
-          <Span>Already have an account?</Span>
-          <Span>
-            <Link
-              style={{
-                textDecoration: "none",
-                color: "#3a8dff",
-              }}
-              to="/login"
-            >
-              Sign in
-            </Link>
-          </Span>
-        </AccountWrap>
+
         <ButtonContainer>
-          <MyButton title="Sign up" bgColor={"#3a8dff"} color="#fff" />
+          <MyButton
+            title="Sign up"
+            bgColor={"#3a8dff"}
+            color="#fff"
+            secBg
+            runActioni={handleSubmit}
+            mobileWidth={"19rem"}
+            font={"17px"}
+          />
+          <AccountWrap>
+            <Span>Already have an account?</Span>
+            <Span>
+              <Link
+                style={{
+                  textDecoration: "none",
+                  color: "#3a8dff",
+                }}
+                to="/login"
+              >
+                Sign in
+              </Link>
+            </Span>
+          </AccountWrap>
         </ButtonContainer>
       </Container>
     </AuthLayout>

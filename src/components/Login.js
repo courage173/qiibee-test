@@ -15,6 +15,10 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  @media (max-width: 768px) {
+    box-shadow: none;
+    padding: 0;
+  }
 `;
 const HeadText = styled.h4`
   font-size: 35px;
@@ -40,46 +44,21 @@ const FormContainer = styled.div`
 
 const AccountWrap = styled.div`
   width: 22rem;
+  @media (min-width: 768px) {
+    display: none;
+  }
+  @media (max-width: 768px) {
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+  }
 `;
 const ButtonContainer = styled.div`
   margin-top: 10px;
 `;
 
-const Label = styled.label`
-  position: relative;
-  display: inline-block;
-  width: 50px;
-  height: 26px;
-`;
-
-const ToggleSpan = styled.span`
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  -webkit-transition: 0.4s;
-  transition: 0.4s;
-  border-radius: 34px;
-  &:after {
-    position: absolute;
-    content: "";
-    height: 19px;
-    width: 19px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    -webkit-transition: 0.4s;
-    transition: 0.4s;
-    border-radius: 50%;
-    transform: ${(props) => props.toggle && "translateX(24px)"};
-  }
-`;
-const Login = () => {
+const Login = (props) => {
   const [form, setForm] = useState("brand");
-  const [toggle, setToggle] = useState(false);
   const [userForm, setUserForm] = useState({
     formdata: {
       email: {
@@ -174,6 +153,7 @@ const Login = () => {
         });
   };
 
+  const handleSubmit = () => {};
   const renderBrandForm = () => {
     return (
       <>
@@ -225,31 +205,19 @@ const Login = () => {
         <TopSection>
           <HeadText>Welcome back</HeadText>
         </TopSection>
-        <Label
-          className="Toggler-wrap"
-          style={{
-            marginTop: "10px",
-          }}
-        >
-          <input
-            className="btn-toggler"
-            type="checkbox"
-            onChange={() => setToggle(!toggle)}
-            name="hideIncident"
-            id="hideIncident"
-            checked={toggle}
-            style={{
-              opacity: 0,
-              width: 0,
-              height: 0,
-            }}
-          />
-          <ToggleSpan
-            className="TogglerBtn-slider round"
-            toggle={toggle}
-          ></ToggleSpan>
-        </Label>
         {form === "user" ? renderUserForm() : renderBrandForm()}
+
+        <ButtonContainer>
+          <MyButton
+            title="Sign in"
+            bgColor={"#3a8dff"}
+            color="#fff"
+            secBg
+            runAction={handleSubmit}
+            mobileWidth={"19rem"}
+            font={"17px"}
+          />
+        </ButtonContainer>
         <AccountWrap>
           <Span>Don't have an account?</Span>
           <Span>
@@ -258,15 +226,12 @@ const Login = () => {
                 textDecoration: "none",
                 color: "#3a8dff",
               }}
-              to="/register"
+              to="/"
             >
               Sign up
             </Link>
           </Span>
         </AccountWrap>
-        <ButtonContainer>
-          <MyButton title="Sign in" bgColor={"#3a8dff"} color="#fff" />
-        </ButtonContainer>
       </Container>
     </AuthLayout>
   );

@@ -4,11 +4,15 @@ import img from "../assets/images/profile.png";
 import { withRouter } from "react-router-dom";
 
 const Container = styled.div`
-  width: 17rem;
+  width: 13rem;
   height: 100%;
   box-shadow: 1px 2px 3px 2px rgba(134, 185, 255, 0.85);
-  z-index: 99;
+  z-index: 999;
+  position: fixed;
   background-color: #ffffff;
+  @media (max-width: 760px) {
+    display: none;
+  }
 `;
 
 const ProfileSection = styled.div`
@@ -68,9 +72,9 @@ const Sidebar = (props) => {
         <Para>Courage Osemwengie</Para>
       </ProfileSection>
       <LinkWrap>
-        {Links.map((link) => {
+        {Links.map((link, i) => {
           if (link.name === "Logout") {
-            return <LogoutButton>{link.name}</LogoutButton>;
+            return <LogoutButton key={i}>{link.name}</LogoutButton>;
           }
           return (
             <LinkContainer
@@ -78,6 +82,7 @@ const Sidebar = (props) => {
                 backgroundColor: active === link.to && "#f5f5f5",
                 // color: active === link.to && "#fff",
               }}
+              key={i}
             >
               {link.name}
             </LinkContainer>

@@ -10,11 +10,18 @@ const Button = styled.button`
   background-color: ${(props) => (props.bgColor ? props.bgColor : "#fff")};
   color: ${(props) => (props.color ? props.color : "#3a8dff")};
   border: none;
-  font-size: 15px;
+  font-size: ${(props) => (props.font ? props.font : "16px")};
   border-radius: 5px;
+  transition: 0.17s ease-in;
+  cursor: pointer;
   &:hover {
-    background-color: #3a8dff;
+    background-color: ${(props) => (props.secBg ? "#1058bb" : "#0d5ece")};
     color: #fff;
+  }
+  @media (max-width: 760px) {
+    width: ${(props) => (props.mobileWidth ? props.mobileWidth : "8rem")};
+    height: 3.5rem;
+    font: ${(props) => props.Mfont && props.Mfont};
   }
 `;
 const MyButton = (props) => {
@@ -27,6 +34,9 @@ const MyButton = (props) => {
       width={props.width}
       height={props.height}
       style={props.style}
+      font={props.font}
+      mobileWidth={props.mobileWidth}
+      Mfont={props.Mfont}
     >
       {props.title}
     </Button>

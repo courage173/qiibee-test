@@ -1,25 +1,28 @@
 import React from "react";
 import styled from "@emotion/styled";
-import cokeLogo from "../assets/images/fb.png";
 
 const Container = styled.div`
   width: 15rem;
-  height: 15rem;
+  height: 10rem;
   border-radius: 7px;
   background: #ffffff;
   cursor: pointer;
   box-shadow: 0px 6px 12px rgba(8, 35, 48, 0.1);
   border-radius: 8px;
   margin: 20px;
+  background-color: #fff;
 `;
 const LogoSection = styled.div`
-  height: 8rem;
+  height: 3rem;
+  width: 3rem;
+  border-radius: 50%;
+  border: 1px solid #f5f5f5;
+  margin: 10px 5px 0 10px;
 `;
 const BottomCard = styled.div`
-  height: 7rem;
   display: flex;
   flex-direction: column;
-  background-color: #f5f5f5;
+  background-color: #fff;
 
   padding: 0 15px;
   border-bottom-left-radius: 7px;
@@ -43,21 +46,41 @@ const RoyaltySpan = styled.span`
   margin-top: 10px;
   align-items: center;
 `;
+const TopSection = styled.div`
+  display: flex;
+  align-items: center;
+`;
+const Follow = styled.div`
+  justify-content: flex-end;
+  align-items: flex-end;
+  display: flex;
+  width: 100%;
+`;
+const Para = styled.p`
+  font-size: 14px;
+  color: #3a8dff;
+  padding: 5px;
+`;
 const BrandCard = (props) => {
   return (
     <Container>
-      <LogoSection>
-        <img
-          style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            borderRadius: "7px",
-          }}
-          src={props.image}
-          alt="logo"
-        />
-      </LogoSection>
+      <TopSection>
+        <LogoSection>
+          <img
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              borderRadius: "50%",
+            }}
+            src={props.image}
+            alt="logo"
+          />
+        </LogoSection>
+        <BrandName>{props.name}</BrandName>
+      </TopSection>
+
+      {/* <BrandName>{props.name}</BrandName> */}
       <BottomCard>
         <div
           style={{
@@ -66,12 +89,14 @@ const BrandCard = (props) => {
             alignItems: "center",
           }}
         >
-          <BrandName>{props.name}</BrandName>
           <RoyaltySpan>
             Loyalty points <RoyaltyPoint>{props.loyalty}</RoyaltyPoint>
           </RoyaltySpan>
         </div>
       </BottomCard>
+      <Follow>
+        <Para>follow</Para>
+      </Follow>
     </Container>
   );
 };
