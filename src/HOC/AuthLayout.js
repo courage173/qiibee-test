@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { withRouter } from "react-router-dom";
+import { history } from "../redux/store";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import styled from "@emotion/styled";
@@ -127,7 +127,7 @@ const ToggleWrap = styled.div`
 const AuthLayout = (props) => {
   const [toggle, setToggle] = useState(false);
   const handleRoute = () => {
-    props.history.push(props.login ? "/" : "/login");
+    history.push(props.login ? "/" : "/login");
   };
 
   const handleToggle = () => {
@@ -205,4 +205,4 @@ const AuthLayout = (props) => {
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators({ toggleForm }, dispatch);
 
-export default connect(null, mapDispatchToProps)(withRouter(AuthLayout));
+export default connect(null, mapDispatchToProps)(AuthLayout);

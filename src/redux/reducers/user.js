@@ -39,6 +39,14 @@ const user = (state = initialState, action) => {
           success: true,
         },
         user: action.payload,
+        users:
+          action.payload.role === "user"
+            ? state.users.concat(action.payload)
+            : state.user,
+        brands:
+          action.payload.role === "brand"
+            ? state.users.concat(action.payload)
+            : state.brands,
       });
     case types.REGISTER_USER_FAILURE:
       return Object.assign({}, state, {
@@ -60,10 +68,18 @@ const user = (state = initialState, action) => {
       return Object.assign({}, state, {
         login: {
           requesting: false,
-          error: action.payload,
+          error: null,
           success: true,
         },
         user: action.payload,
+        users:
+          action.payload.role === "user"
+            ? state.users.concat(action.payload)
+            : state.user,
+        brands:
+          action.payload.role === "brand"
+            ? state.users.concat(action.payload)
+            : state.brands,
       });
     case types.LOGIN_USER_FAILURE:
       return Object.assign({}, state, {

@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "@emotion/styled";
 import Sidebar from "../components/Sidebar";
-import MyButton from "../utils/Button";
 
 const Container = styled.div`
   width: 100%;
@@ -80,11 +79,7 @@ const RoyaltyPoint = styled.div`
   color: #fff;
   margin-right: 20px;
 `;
-const Button = styled.div`
-  margin-right: 15px;
-  color: #3a8dff;
-  cursor: pointer;
-`;
+
 const MenuBars = styled.div`
   display: flex;
   flex-direction: column;

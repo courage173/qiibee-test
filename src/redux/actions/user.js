@@ -1,5 +1,4 @@
 import * as types from "../constants/user";
-
 //register user
 export const registerUser = (data) => ({
   type: types.REGISTER_USER_REQUEST,
@@ -22,10 +21,12 @@ export const loginUser = (data) => ({
   payload: data,
 });
 
-export const loginUserSuccess = (payload) => ({
-  type: types.LOGIN_USER_SUCCESS,
-  payload,
-});
+export const loginUserSuccess = (payload) => {
+  return {
+    type: types.LOGIN_USER_SUCCESS,
+    payload,
+  };
+};
 
 export const loginUserFailure = (message) => ({
   type: types.LOGIN_USER_FAILURE,

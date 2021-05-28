@@ -99,7 +99,7 @@ const H5 = styled.h4`
 `;
 
 const SingleBrand = () => {
-  const [point, setPoint] = useState(0);
+  const [point] = useState(0);
   return (
     <DashboardLayout>
       <Wrapper>

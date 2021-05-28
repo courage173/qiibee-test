@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { bindActionCreators } from "redux";
+import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import AuthLayout from "../HOC/AuthLayout";
 import { Link } from "react-router-dom";
@@ -7,7 +8,7 @@ import FormField from "../utils/form/Form";
 import { update, generateData, isFormValid } from "../utils/form/formAction";
 import styled from "@emotion/styled";
 import MyButton from "../utils/Button";
-import { loginUser, registerUser } from "../redux/actions/user";
+import { loginUser } from "../redux/actions/user";
 
 const Container = styled.div`
   padding: 30px;
@@ -61,7 +62,6 @@ const ButtonContainer = styled.div`
 `;
 
 const Login = (props) => {
-  const [form, setForm] = useState("brand");
   const [userForm, setUserForm] = useState({
     formdata: {
       email: {
@@ -156,12 +156,16 @@ const Login = (props) => {
         });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    const { login } = props;
     const form = props.switchForm ? brand.formdata : userForm.formdata;
     const isValid = isFormValid(form);
     if (isValid) {
       const data = generateData(form);
-      props.loginUser(data);
+      await props.loginUser(data);
+      // if (login.success) {
+      //   props.history.push("/dashboard");
+      // }
     }
   };
   const renderBrandForm = () => {
@@ -250,10 +254,11 @@ const Login = (props) => {
 const mapStateToProps = (state) => {
   return {
     switchForm: state.ui.toggleForm,
+    login: state.user.login,
   };
 };
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators({ loginUser }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Login));

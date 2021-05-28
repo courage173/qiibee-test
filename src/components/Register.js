@@ -70,7 +70,6 @@ const ButtonContainer = styled.div`
   }
 `;
 const Register = (props) => {
-  const [form, setForm] = useState("brand");
   const [userForm, setUserForm] = useState({
     formdata: {
       email: {
@@ -223,6 +222,11 @@ const Register = (props) => {
 
     if (isValid) {
       const data = generateData(form);
+      if (props.switchForm) {
+        data.role = "brand";
+      } else {
+        data.role = "user";
+      }
       props.registerUser(data);
     }
   };

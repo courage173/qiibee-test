@@ -1,15 +1,17 @@
-import { from, of, Observable } from "rxjs";
+//import { from, of, Observable } from "rxjs";
+import { history } from "../store";
 import {
-  filter,
+  // filter,
   switchMap,
   map,
   catchError,
   mergeMap,
-  flatMap,
-  merge,
+  mapTo,
+  // mergeMap,
+  // flatMap,
+  // merge,
 } from "rxjs/operators";
 import { ofType } from "redux-observable";
-// import { Observable } from "rxjs";
 import * as types from "../constants/user";
 import {
   registerUserSuccess,
@@ -25,13 +27,15 @@ export const register = (action$, store) => {
     ofType(types.REGISTER_USER_REQUEST),
     switchMap(async (action) => {
       const user = await registerUser(action.payload, users);
-      localStorage.setItem(user.role, user);
+
       return { payload: user };
     }),
     map((action) => {
       if (action.payload.error) {
         return registerUserFailure(action.payload);
       }
+      localStorage.setItem(action.payload.role, JSON.stringify(action.payload));
+      history.push("/dashboard");
       return registerUserSuccess(action.payload);
     }),
     catchError((error) => {
@@ -44,15 +48,16 @@ export const login = (action$, store) => {
   const users = store.value.user.users;
   return action$.pipe(
     ofType(types.LOGIN_USER_REQUEST),
-    switchMap(async (action) => {
+    mergeMap(async (action) => {
       const user = await loginUser(action.payload, users);
-      localStorage.setItem(user.role, user);
       return { payload: user };
     }),
     map((action) => {
       if (action.payload.error) {
         return loginUserFailure(action.payload);
       }
+      localStorage.setItem(action.payload.role, JSON.stringify(action.payload));
+      history.push("/dashboard");
       return loginUserSuccess(action.payload);
     }),
     catchError((error) => {
