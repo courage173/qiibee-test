@@ -157,15 +157,11 @@ const Login = (props) => {
   };
 
   const handleSubmit = async () => {
-    const { login } = props;
     const form = props.switchForm ? brand.formdata : userForm.formdata;
     const isValid = isFormValid(form);
     if (isValid) {
       const data = generateData(form);
       await props.loginUser(data);
-      // if (login.success) {
-      //   props.history.push("/dashboard");
-      // }
     }
   };
   const renderBrandForm = () => {

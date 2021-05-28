@@ -4,6 +4,7 @@ import RegisterPage from "./pages/Register";
 import LoginPage from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Brand from "./pages/Brand";
+import AuthRoute from "./HOC/AuthRoute";
 
 const Routes = (props) => {
   return (
@@ -11,8 +12,8 @@ const Routes = (props) => {
       <Switch>
         <Route exact path="/login" component={LoginPage} />
         <Route exact path="/" component={RegisterPage} />
-        <Route exact path="/dashboard" component={Dashboard} />
-        <Route exact path="/dashboard/brand/:id" component={Brand} />
+        <Route exact path="/dashboard" component={AuthRoute(Dashboard)} />
+        <Route exact path="/dashboard/brand/:id" component={AuthRoute(Brand)} />
       </Switch>
     </>
   );

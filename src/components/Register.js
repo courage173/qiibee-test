@@ -308,7 +308,6 @@ const Register = (props) => {
           </HeadText>
         </TopSection>
         {props.switchForm ? renderBrandForm() : renderUserForm()}
-
         <ButtonContainer>
           <MyButton
             title="Sign up"

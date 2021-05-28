@@ -1,4 +1,4 @@
-//import { from, of, Observable } from "rxjs";
+// import { from, of, Observable,  } from "rxjs";
 import { history } from "../store";
 import {
   // filter,
@@ -6,7 +6,7 @@ import {
   map,
   catchError,
   mergeMap,
-  mapTo,
+
   // mergeMap,
   // flatMap,
   // merge,
@@ -18,8 +18,10 @@ import {
   registerUserFailure,
   loginUserSuccess,
   loginUserFailure,
+  getUserFailure,
+  getUserSuccess,
 } from "../actions/user";
-import { loginUser, registerUser } from "../request";
+import { loginUser, registerUser, getUser } from "../request";
 
 export const register = (action$, store) => {
   const users = store.value.user.users;
@@ -34,7 +36,10 @@ export const register = (action$, store) => {
       if (action.payload.error) {
         return registerUserFailure(action.payload);
       }
-      localStorage.setItem(action.payload.role, JSON.stringify(action.payload));
+      const user = action.payload;
+      user.auth = true;
+      localStorage.setItem(user.role, JSON.stringify(user));
+      localStorage.setItem("lastUser", user.role);
       history.push("/dashboard");
       return registerUserSuccess(action.payload);
     }),
@@ -56,12 +61,34 @@ export const login = (action$, store) => {
       if (action.payload.error) {
         return loginUserFailure(action.payload);
       }
-      localStorage.setItem(action.payload.role, JSON.stringify(action.payload));
+      const user = action.payload;
+      user.auth = true;
+      localStorage.setItem(user.role, JSON.stringify(user));
+      localStorage.setItem("lastUser", user.role);
       history.push("/dashboard");
       return loginUserSuccess(action.payload);
     }),
     catchError((error) => {
       return loginUserFailure(error.message);
+    })
+  );
+};
+
+export const getUserDetails = (action$) => {
+  return action$.pipe(
+    ofType(types.GET_USER_REQUEST),
+    mergeMap(async (action) => {
+      const user = await getUser(action.payload);
+      return { payload: user };
+    }),
+    map((action) => {
+      if (action.payload.error) {
+        return getUserFailure(action.payload);
+      }
+      return getUserSuccess(action.payload);
+    }),
+    catchError((error) => {
+      return getUserFailure(error.message);
     })
   );
 };

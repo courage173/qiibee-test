@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
 import styled from "@emotion/styled";
 import img from "../assets/images/profile.png";
 import { withRouter } from "react-router-dom";
+import { history } from "../redux/store";
 
 const Container = styled.div`
   width: 13rem;
@@ -65,16 +67,35 @@ const Sidebar = (props) => {
   useEffect(() => {
     setActive(currentLink.substring(1));
   }, [currentLink]);
+
+  const { user } = props;
+  const handleLogout = () => {
+    if (user.role === "user") {
+      const data = JSON.parse(localStorage.getItem("user"));
+      data.auth = false;
+      localStorage.setItem("user", JSON.stringify(data));
+      history.push("/login");
+    } else {
+      const data = JSON.parse(localStorage.getItem("brand"));
+      data.auth = false;
+      localStorage.setItem("brand", JSON.stringify(data));
+      history.push("/login");
+    }
+  };
   return (
     <Container>
       <ProfileSection>
         <Image src={img} />
-        <Para>Courage Osemwengie</Para>
+        <Para>{user.name}</Para>
       </ProfileSection>
       <LinkWrap>
         {Links.map((link, i) => {
           if (link.name === "Logout") {
-            return <LogoutButton key={i}>{link.name}</LogoutButton>;
+            return (
+              <LogoutButton key={i} onClick={handleLogout}>
+                {link.name}
+              </LogoutButton>
+            );
           }
           return (
             <LinkContainer
@@ -93,4 +114,11 @@ const Sidebar = (props) => {
   );
 };
 
-export default withRouter(Sidebar);
+const mapStateToProps = (state) => {
+  return {
+    switchForm: state.ui.toggleForm,
+    login: state.user.login,
+    user: state.user.user,
+  };
+};
+export default connect(mapStateToProps)(withRouter(Sidebar));
