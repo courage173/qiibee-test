@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
 import AuthLayout from "../HOC/AuthLayout";
 import FormField from "../utils/form/Form";
-import { update } from "../utils/form/formAction";
+import { update, generateData, isFormValid } from "../utils/form/formAction";
 import styled from "@emotion/styled";
 import MyButton from "../utils/Button";
+import { registerUser } from "../redux/actions/user";
 
 const Container = styled.div`
   padding: 30px;
@@ -202,19 +205,27 @@ const Register = (props) => {
   });
 
   const updateForm = (element) => {
-    const formdata = form === "user" ? userForm.formdata : brand.formdata;
+    const formdata = props.switchForm ? brand.formdata : userForm.formdata;
     const newFormdata = update(element, formdata, "register");
-    form === "user"
-      ? setUserForm({
+    props.switchForm
+      ? setBrandForm({
           formError: false,
           formdata: newFormdata,
         })
-      : setBrandForm({
+      : setUserForm({
           formError: false,
           formdata: newFormdata,
         });
   };
-  const handleSubmit = () => {};
+  const handleSubmit = () => {
+    const form = props.switchForm ? brand.formdata : userForm.formdata;
+    const isValid = isFormValid(form);
+
+    if (isValid) {
+      const data = generateData(form);
+      props.registerUser(data);
+    }
+  };
   const renderBrandForm = () => {
     return (
       <>
@@ -289,10 +300,10 @@ const Register = (props) => {
       <Container>
         <TopSection>
           <HeadText>
-            Create a {form === "user" ? "user" : "brand"} account
+            Create a {props.switchForm ? "brand" : "user"} account
           </HeadText>
         </TopSection>
-        {form === "user" ? renderUserForm() : renderBrandForm()}
+        {props.switchForm ? renderBrandForm() : renderUserForm()}
 
         <ButtonContainer>
           <MyButton
@@ -300,7 +311,7 @@ const Register = (props) => {
             bgColor={"#3a8dff"}
             color="#fff"
             secBg
-            runActioni={handleSubmit}
+            runAction={handleSubmit}
             mobileWidth={"19rem"}
             font={"17px"}
           />
@@ -324,4 +335,12 @@ const Register = (props) => {
   );
 };
 
-export default Register;
+const mapStateToProps = (state) => {
+  return {
+    switchForm: state.ui.toggleForm,
+  };
+};
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators({ registerUser }, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register);

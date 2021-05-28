@@ -1,10 +1,13 @@
 import React, { useState } from "react";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
 import AuthLayout from "../HOC/AuthLayout";
 import { Link } from "react-router-dom";
 import FormField from "../utils/form/Form";
-import { update } from "../utils/form/formAction";
+import { update, generateData, isFormValid } from "../utils/form/formAction";
 import styled from "@emotion/styled";
 import MyButton from "../utils/Button";
+import { loginUser, registerUser } from "../redux/actions/user";
 
 const Container = styled.div`
   padding: 30px;
@@ -140,20 +143,27 @@ const Login = (props) => {
   });
 
   const updateForm = (element) => {
-    const formdata = form === "user" ? userForm.formdata : brand.formdata;
+    const formdata = props.switchForm ? brand.formdata : userForm.formdata;
     const newFormdata = update(element, formdata, "register");
-    form === "user"
-      ? setUserForm({
+    props.switchForm
+      ? setBrandForm({
           formError: false,
           formdata: newFormdata,
         })
-      : setBrandForm({
+      : setUserForm({
           formError: false,
           formdata: newFormdata,
         });
   };
 
-  const handleSubmit = () => {};
+  const handleSubmit = () => {
+    const form = props.switchForm ? brand.formdata : userForm.formdata;
+    const isValid = isFormValid(form);
+    if (isValid) {
+      const data = generateData(form);
+      props.loginUser(data);
+    }
+  };
   const renderBrandForm = () => {
     return (
       <>
@@ -205,7 +215,7 @@ const Login = (props) => {
         <TopSection>
           <HeadText>Welcome back</HeadText>
         </TopSection>
-        {form === "user" ? renderUserForm() : renderBrandForm()}
+        {props.switchForm ? renderBrandForm() : renderUserForm()}
 
         <ButtonContainer>
           <MyButton
@@ -237,4 +247,13 @@ const Login = (props) => {
   );
 };
 
-export default Login;
+const mapStateToProps = (state) => {
+  return {
+    switchForm: state.ui.toggleForm,
+  };
+};
+
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators({ loginUser }, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

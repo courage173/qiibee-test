@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
 import styled from "@emotion/styled";
 import bgImage from "../assets/images/bg-img.png";
 import MyButton from "../utils/Button";
+import { toggleForm } from "../redux/actions/ui";
 
 const Container = styled.div`
   display: flex;
@@ -126,6 +129,11 @@ const AuthLayout = (props) => {
   const handleRoute = () => {
     props.history.push(props.login ? "/" : "/login");
   };
+
+  const handleToggle = () => {
+    setToggle(!toggle);
+    props.toggleForm();
+  };
   return (
     <Container>
       <LeftSection>
@@ -149,7 +157,7 @@ const AuthLayout = (props) => {
               <input
                 className="btn-toggler"
                 type="checkbox"
-                onChange={() => setToggle(!toggle)}
+                onChange={() => handleToggle(!toggle)}
                 name="hideIncident"
                 id="hideIncident"
                 checked={toggle}
@@ -194,4 +202,7 @@ const AuthLayout = (props) => {
   );
 };
 
-export default withRouter(AuthLayout);
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators({ toggleForm }, dispatch);
+
+export default connect(null, mapDispatchToProps)(withRouter(AuthLayout));
