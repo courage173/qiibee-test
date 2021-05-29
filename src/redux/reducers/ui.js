@@ -3,6 +3,7 @@ import * as types from "../constants/ui";
 const initialState = {
   modalOpen: false,
   toggleForm: false,
+  users: [],
 };
 const ui = (state = initialState, action) => {
   switch (action.type) {
@@ -10,6 +11,7 @@ const ui = (state = initialState, action) => {
       return {
         ...state,
         modalOpen: !state.modalOpen,
+        users: !state.modalOpen ? action.payload : [],
       };
     case types.TOGGLE_FORM:
       return {

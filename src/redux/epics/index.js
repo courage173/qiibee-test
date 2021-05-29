@@ -1,5 +1,5 @@
 import { combineEpics } from "redux-observable";
-import { register, login, getUserDetails, redeem } from "./user";
+import { register, login, getUserDetails, redeem, reward } from "./user";
 import { tapAllActions } from "./allEpic";
 import { getBrandDetail, follow } from "./brand";
 
@@ -10,5 +10,6 @@ export const rootEpic = combineEpics(
   tapAllActions,
   getBrandDetail,
   follow,
-  redeem
+  redeem,
+  reward
 );

@@ -1,18 +1,13 @@
 import * as types from "../constants/ui";
 
-// export const toggleSidebar = () => {
-//   return {
-//     type: types.TOGGLE_SIDE_BAR,
-//   };
-// };
-
-export const toggleModal = () => {
+export const toggleModal = (id) => {
   return {
     type: types.TOGGLE_MODAL,
+    payload: id,
   };
 };
 
-export const toggleForm = (data) => (dispatch) => {
+export const toggleForm = () => (dispatch) => {
   dispatch({
     type: types.TOGGLE_FORM,
   });

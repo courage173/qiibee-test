@@ -160,8 +160,16 @@ const Profile = (props) => {
                 {user.role === "user" ? "User Details" : " Brand Details"}
               </H4>
               <BrandLogo src={user.image} />
-              <H5>Name - {user.firstName + " " + user.lastName}</H5>
-              <H6>Email - {user.email}</H6>
+              <H5>
+                Name -{" "}
+                {user.role === "user"
+                  ? user.firstName + " " + user.lastName
+                  : user.name}
+              </H5>
+              <H6>
+                {user.role === "user" ? "Email" : "Brand Symbol"} -{" "}
+                {user.role === "user" ? user.email : user.symbol}
+              </H6>
               {user.role === "user" ? null : (
                 <>
                   {" "}

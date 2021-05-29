@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import UserCard from "../../utils/UserCard";
 import styled from "@emotion/styled";
+import { toggleModal } from "../../redux/actions/ui";
 
 const UserSection = styled.div`
   width: 70%;
@@ -20,13 +21,61 @@ const UserSection = styled.div`
 const UserList = (props) => {
   const brandUsers = props.brand && props.brand.users;
   const users = props.users;
+  const [select, setSelect] = useState(false);
+  const [selectedUsers, setSelectedUsers] = useState([]);
 
+  const handleModal = (id) => {
+    props.toggleModal([id]);
+  };
+
+  const handleSetUser = (id) => {
+    let tempIdx = selectedUsers;
+
+    if (tempIdx.includes(id)) {
+      tempIdx = tempIdx.filter((userId) => userId !== id);
+    } else {
+      tempIdx.push(id);
+    }
+    setSelectedUsers(tempIdx);
+  };
   const brandList =
     users && users.filter((user) => brandUsers && brandUsers.includes(user.id));
+
+  const handleUnSelectUser = () => {
+    setSelectedUsers([]);
+    setSelect(!select);
+  };
   return (
     <UserSection>
+      <div
+        style={{
+          cursor: "pointer",
+          display: "flex",
+        }}
+      >
+        <div onClick={handleUnSelectUser}>
+          {select ? "Unsellect" : "Select Users"}
+        </div>
+        {select ? (
+          <div
+            style={{
+              marginLeft: "10px",
+              color: "#3a8dff",
+            }}
+            onClick={() => props.toggleModal(selectedUsers)}
+          >
+            Click to Reward
+          </div>
+        ) : null}
+      </div>
       {brandList.map((user, i) => (
-        <UserCard {...user} key={user.loyalty + i} />
+        <UserCard
+          {...user}
+          key={user.id + i}
+          runAction={() => handleModal(user.id)}
+          selectBox={select}
+          handleSetUser={handleSetUser}
+        />
       ))}
     </UserSection>
   );
@@ -37,6 +86,7 @@ const mapStateToProps = (state) => {
     brand: state.user.user,
   };
 };
-const mapDispatchToProps = (dispatch) => bindActionCreators({}, dispatch);
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators({ toggleModal }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserList);

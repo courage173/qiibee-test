@@ -133,7 +133,8 @@ const users = [
   {
     id: 4,
     firstName: "Joe",
-    email: "Smith",
+    lastName: "Smith",
+    email: "joesmith@gmail.com",
     loyalty: 746,
     image: fyipe,
     role: "user",
@@ -153,8 +154,9 @@ const users = [
   },
   {
     id: 6,
-    name: "Courage osemwengie",
-    email: "courageosemwengie@gmail.com",
+    firstName: "Kola",
+    lastName: "wole",
+    email: "kola@gmail.com",
     loyalty: 2342,
     password: 123456,
     role: "user",

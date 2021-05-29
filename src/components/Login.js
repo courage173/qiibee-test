@@ -159,7 +159,6 @@ const Login = (props) => {
   const handleSubmit = async () => {
     const form = props.switchForm ? brand.formdata : userForm.formdata;
     const isValid = isFormValid(form);
-    console.log(isValid);
     if (isValid) {
       const data = generateData(form);
       await props.loginUser(data);

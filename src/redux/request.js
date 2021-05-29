@@ -1,4 +1,3 @@
-import {} from "rxjs";
 import { randomNumberGenerator, generateId } from "../utils/helper";
 export const registerUser = async (data, list, brands) => {
   const promise = await new Promise((resolve) => {
@@ -30,7 +29,6 @@ export const registerUser = async (data, list, brands) => {
         data.id = id;
         data.users = userIds;
         data.loyalty = Number(data.loyalty);
-        console.log("e end here");
         resolve(data);
       }
     }
@@ -84,7 +82,6 @@ export const getUser = async () => {
 //brand request followBrand
 
 export const getSingleBrand = async (id, brands) => {
-  console.log(id);
   const promise = await new Promise((resolve) => {
     const brand = brands.find((brand) => Number(brand.id) === Number(id));
     if (brand) {
@@ -136,6 +133,33 @@ export const redeemLoyalty = async (amount) => {
       localStorage.setItem("user", JSON.stringify(user));
       return resolve(user);
     }
+  });
+  return promise;
+};
+
+export const rewardLoyalty = async (payload, users) => {
+  const authUser = JSON.parse(localStorage.getItem("user"));
+  const brandUser = JSON.parse(localStorage.getItem("brand"));
+  const promise = await new Promise((resolve) => {
+    const amount = Number(payload.point);
+    const userIds = payload.userIds;
+    let totalAdded = 0;
+    const newUsers = users.map((user) => {
+      if (userIds.includes(user.id)) {
+        const sum = user.loyalty + amount;
+        totalAdded += amount;
+        user.loyalty = sum;
+        if (authUser.id === user.id) {
+          localStorage.setItem("user", user);
+        }
+        return user;
+      }
+      return user;
+    });
+    const newPoint = Number(brandUser.loyalty) - totalAdded;
+    brandUser.loyalty = newPoint;
+    localStorage.setItem("brand", JSON.stringify(brandUser));
+    resolve({ users: newUsers, point: newPoint });
   });
   return promise;
 };

@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
 import MyButton from "../../utils/Button";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { toggleModal } from "../../redux/actions/ui";
+import { rewardLoyalty } from "../../redux/actions/user";
 
 const Container = styled.div`
   margin: 0 auto;
@@ -12,6 +16,8 @@ const Container = styled.div`
   justify-content: center;
   top: 20%;
   z-index: 999;
+  transition: 2s ease-in-out;
+  visibility: ${(props) => (props.open ? "visible" : "hidden")};
 `;
 const ModalContainer = styled.div`
   width: 20rem;
@@ -21,8 +27,11 @@ const ModalContainer = styled.div`
   box-shadow: 0px 6px 12px rgba(8, 35, 48, 0.14);
   display: flex;
   justify-content: space-around;
+  opacity: ${(props) => (props.open ? "1" : "0")};
   align-items: center;
   flex-direction: column;
+  transition: 0.5s ease-in-out;
+  transform: ${(props) => (props.open ? "translateY(0)" : "translateY(20px)")};
 `;
 
 const Input = styled.input`
@@ -64,14 +73,18 @@ const Button = styled.div`
   color: white;
   cursor: pointer;
 `;
-function RewardModal() {
+function RewardModal(props) {
   const [point, setPoint] = useState(0);
-  const handleRewardLoyalty = () => {};
+  const handleRewardLoyalty = () => {
+    props.rewardLoyalty({ point, userIds: props.users });
+  };
+  const { modalOpen } = props;
+
   return (
-    <Container>
-      <ModalContainer>
+    <Container open={modalOpen} onClick={() => props.toggleModal([])}>
+      <ModalContainer open={modalOpen} onClick={(e) => e.stopPropagation()}>
         <CloseBtn>
-          <Button>x</Button>
+          <Button onClick={() => props.toggleModal([])}>x</Button>
         </CloseBtn>
         <div
           style={{
@@ -79,7 +92,7 @@ function RewardModal() {
             marginTop: "-25px",
           }}
         >
-          <H5>Reward User</H5>
+          <H5>Reward Users</H5>
         </div>
 
         <div
@@ -112,5 +125,14 @@ function RewardModal() {
     </Container>
   );
 }
+const mapStateToProps = (state) => {
+  return {
+    modalOpen: state.ui.modalOpen,
+    brand: state.user.user,
+    users: state.ui.users,
+  };
+};
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators({ toggleModal, rewardLoyalty }, dispatch);
 
-export default RewardModal;
+export default connect(mapStateToProps, mapDispatchToProps)(RewardModal);

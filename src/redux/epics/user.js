@@ -11,8 +11,16 @@ import {
   getUserSuccess,
   redeemPointSuccess,
   redeemPointFailure,
+  rewardPointSuccess,
+  rewardPointFailure,
 } from "../actions/user";
-import { loginUser, registerUser, getUser, redeemLoyalty } from "../request";
+import {
+  loginUser,
+  registerUser,
+  getUser,
+  redeemLoyalty,
+  rewardLoyalty,
+} from "../request";
 
 export const register = (action$, store) => {
   const users = store.value.user.users;
@@ -101,6 +109,27 @@ export const redeem = (action$) => {
     }),
     catchError((error) => {
       return redeemPointFailure(error.message);
+    })
+  );
+};
+
+export const reward = (action$, store) => {
+  const users = store.value.user.users;
+  const userIds = store.value.ui;
+  return action$.pipe(
+    ofType(types.REWARD_LOYALTY_REQUEST),
+    mergeMap(async (action) => {
+      const userList = await rewardLoyalty(action.payload, users, userIds);
+      return { payload: userList };
+    }),
+    map((action) => {
+      if (action.payload.error) {
+        return rewardPointFailure(action.payload);
+      }
+      return rewardPointSuccess(action.payload);
+    }),
+    catchError((error) => {
+      return rewardPointFailure(error.message);
     })
   );
 };

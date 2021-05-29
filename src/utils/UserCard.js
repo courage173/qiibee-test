@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "@emotion/styled";
 import MyButton from "./Button";
 
@@ -45,6 +45,18 @@ const BottonWrap = styled.div`
 `;
 
 const UserCard = (props) => {
+  const [idx, setIdx] = useState(null);
+  useEffect(() => {
+    setIdx(null);
+  }, [props.selectBox]);
+  const handleCheck = (id) => {
+    if (idx !== id) {
+      setIdx(id);
+    } else {
+      setIdx(null);
+    }
+    props.handleSetUser(id);
+  };
   return (
     <Wrap>
       <div
@@ -53,8 +65,15 @@ const UserCard = (props) => {
           alignItems: "center",
         }}
       >
+        {props.selectBox ? (
+          <input
+            type="checkbox"
+            checked={idx === props.id}
+            onChange={() => handleCheck(props.id)}
+          />
+        ) : null}
         <Image src={props.image} />
-        <Name>{props.name}</Name>
+        <Name>{props.firstName + " " + props.lastName}</Name>
       </div>
       <Email>{props.email}</Email>
       <div
@@ -72,6 +91,7 @@ const UserCard = (props) => {
             width="4.5rem"
             height="2.7rem"
             secBg
+            runAction={props.runAction}
           />
         </BottonWrap>
       </div>

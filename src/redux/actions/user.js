@@ -63,3 +63,19 @@ export const redeemPointFailure = (message) => ({
   type: types.REDEEM_LOYALTY_FAILURE,
   payload: message,
 });
+
+//reqard loyalty point
+export const rewardLoyalty = (point) => ({
+  type: types.REWARD_LOYALTY_REQUEST,
+  payload: point,
+});
+
+export const rewardPointSuccess = (payload) => ({
+  type: types.REWARD_LOYALTY_SUCCESS,
+  payload,
+});
+
+export const rewardPointFailure = (message) => ({
+  type: types.REWARD_LOYALTY_FAILURE,
+  payload: message,
+});

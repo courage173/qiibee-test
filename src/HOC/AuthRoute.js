@@ -20,6 +20,12 @@ function AuthRoute(ComposedClass) {
           history.push("/login");
         }
       });
+      ofActionSuccessful("GET_USER_FAILURE").subscribe((action) => {
+        const error = action && action.payload;
+        if (error) {
+          history.push("/login");
+        }
+      });
     }
 
     render() {

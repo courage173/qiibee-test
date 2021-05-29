@@ -22,6 +22,11 @@ const initialState = {
     error: null,
     success: false,
   },
+  rewardLoyalty: {
+    requesting: false,
+    error: null,
+    success: false,
+  },
   user: {},
   brands: brands,
   users: users,
@@ -50,7 +55,7 @@ const user = (state = initialState, action) => {
             : state.user,
         brands:
           action.payload.role === "brand"
-            ? state.users.concat(action.payload)
+            ? state.brands.concat(action.payload)
             : state.brands,
       });
     case types.REGISTER_USER_FAILURE:
@@ -80,7 +85,7 @@ const user = (state = initialState, action) => {
         users:
           action.payload.role === "user"
             ? state.users.concat(action.payload)
-            : state.user,
+            : state.users,
         brands:
           action.payload.role === "brand"
             ? state.users.concat(action.payload)
@@ -139,6 +144,35 @@ const user = (state = initialState, action) => {
     case types.REDEEM_LOYALTY_FAILURE:
       return Object.assign({}, state, {
         getUser: {
+          requesting: false,
+          error: action.payload,
+          success: false,
+        },
+      });
+    case types.REWARD_LOYALTY_REQUEST:
+      return Object.assign({}, state, {
+        rewardLoyalty: {
+          requesting: true,
+          error: null,
+          success: false,
+        },
+      });
+    case types.REWARD_LOYALTY_SUCCESS:
+      return Object.assign({}, state, {
+        rewardLoyalty: {
+          requesting: false,
+          error: null,
+          success: true,
+        },
+        users: action.payload.users,
+        user: {
+          ...state.user,
+          loyalty: action.payload.point,
+        },
+      });
+    case types.REWARD_LOYALTY_FAILURE:
+      return Object.assign({}, state, {
+        rewardLoyalty: {
           requesting: false,
           error: action.payload,
           success: false,
