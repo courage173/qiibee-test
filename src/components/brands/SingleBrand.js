@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import styled from "@emotion/styled";
 import DashboardLayout from "../../HOC/DashboardLayout";
-
-import cokeLogo from "../../assets/images/coca-cola.jpeg";
 import MyButton from "../../utils/Button";
+import { getBrand } from "../../redux/actions/brand";
+import Spinner from "../../utils/Spinner";
 
 const Wrapper = styled.div`
   height: 100%;
@@ -43,7 +46,6 @@ const BrandLogo = styled.img`
 
 const RedeemWrap = styled.div`
   width: 40%;
-  height: 100%;
 `;
 
 const RedeemTop = styled.div`
@@ -60,7 +62,6 @@ const RedeemBottom = styled.div`
   background-color: rgb(134 185 255 / 85%);
   padding: 0 12px;
   display: flex;
-  /* justify-content: center; */
   align-items: center;
   flex-direction: column;
 `;
@@ -98,83 +99,109 @@ const H5 = styled.h4`
   text-align: center;
 `;
 
-const SingleBrand = () => {
-  const [point] = useState(0);
+const SingleBrand = (props) => {
+  const [point, setPoint] = useState(0);
+  const { getBrand, brand } = props;
+  const id = props.match.params.id;
+  useEffect(() => {
+    getBrand(id);
+  }, [id, getBrand]);
   return (
     <DashboardLayout>
       <Wrapper>
-        <Container>
-          {/* <H4>Brand Details</H4> */}
-          <DetailWrap>
-            <H4
-              style={{
-                color: "black",
-                fontSize: "35px",
-                opacity: 0.5,
-              }}
-            >
-              Brand Details
-            </H4>
-            <BrandLogo src={cokeLogo} />
-            <H5>Brand name - Coka-Cola</H5>
-            <H5>Total loyalty points</H5>
-            <span
-              style={{
-                fontSize: "24px",
-                color: "#fff",
-                fontWeight: 600,
-              }}
-            >
-              <RoyaltyPoint>54645440</RoyaltyPoint>
-            </span>
-          </DetailWrap>
-          <RedeemWrap>
-            <RedeemTop>
-              <H4>Loyalty points</H4>
-              <div
-                style={{
-                  color: "#fff",
-                  fontSize: "30px",
-                  fontWeight: "600",
-                  textAlign: "center",
-                }}
-              >
-                <RoyaltyPoint>54640</RoyaltyPoint>{" "}
-              </div>
-            </RedeemTop>
-            <RedeemBottom>
+        {props.requesting ? (
+          <Spinner marginTop="250px" />
+        ) : (
+          <Container>
+            <DetailWrap>
               <H4
                 style={{
-                  marginTop: "15px",
-                  fontSize: "20px",
+                  color: "black",
+                  fontSize: "35px",
+                  opacity: 0.5,
                 }}
               >
-                Redeem Loyalty Point
+                Brand Details
               </H4>
-              <div
+              <BrandLogo src={brand.image} />
+              <H5>Brand name - {brand.name}</H5>
+              <H5>Total loyalty points</H5>
+              <span
                 style={{
-                  display: "flex",
+                  fontSize: "24px",
+                  color: "#fff",
+                  fontWeight: 600,
                 }}
               >
-                <Input type="number" value={point} />
-                <MyButton
-                  title="Redeem"
-                  width="6rem"
-                  height="2.4rem"
+                <RoyaltyPoint>{brand.loyalty}</RoyaltyPoint>
+              </span>
+            </DetailWrap>
+            <RedeemWrap>
+              <RedeemTop>
+                <H4>Loyalty points</H4>
+                <div
                   style={{
-                    borderTopLeftRadius: "0",
-                    borderBottomLeftRadius: "0",
+                    color: "#fff",
+                    fontSize: "30px",
+                    fontWeight: "600",
+                    textAlign: "center",
                   }}
-                  bgColor={"#3a8dff"}
-                  color="#fff"
-                />
-              </div>
-            </RedeemBottom>
-          </RedeemWrap>
-        </Container>
+                >
+                  <RoyaltyPoint>54640</RoyaltyPoint>{" "}
+                </div>
+              </RedeemTop>
+              <RedeemBottom>
+                <H4
+                  style={{
+                    marginTop: "15px",
+                    fontSize: "20px",
+                  }}
+                >
+                  Redeem Loyalty Point
+                </H4>
+                <div
+                  style={{
+                    display: "flex",
+                  }}
+                >
+                  <Input
+                    type="number"
+                    value={point}
+                    onChange={(e) => {
+                      setPoint(e.target.val);
+                    }}
+                  />
+                  <MyButton
+                    title="Redeem"
+                    width="6rem"
+                    height="2.4rem"
+                    style={{
+                      borderTopLeftRadius: "0",
+                      borderBottomLeftRadius: "0",
+                    }}
+                    bgColor={"#3a8dff"}
+                    color="#fff"
+                  />
+                </div>
+              </RedeemBottom>
+            </RedeemWrap>
+          </Container>
+        )}
       </Wrapper>
     </DashboardLayout>
   );
 };
 
-export default SingleBrand;
+const mapStateToProps = (state) => {
+  return {
+    brand: state.brand.fetchBrand.brand,
+    requesting: state.brand.fetchBrand.requesting,
+  };
+};
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators({ getBrand }, dispatch);
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(SingleBrand));

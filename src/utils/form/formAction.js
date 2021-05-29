@@ -62,6 +62,13 @@ export const isFormValid = (formdata) => {
   let formIsValid = true;
 
   for (const key in formdata) {
+    if (key === "email") {
+      const valid = /\S+@\S+\.\S+/.test(formdata[key].value);
+      formIsValid =
+        (formdata[key].valid || formdata[key].value !== "") &&
+        valid &&
+        formIsValid;
+    }
     if (key === "password") {
       formIsValid =
         (formdata[key].valid || formdata[key].value !== "") &&

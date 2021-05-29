@@ -51,19 +51,31 @@ const TopSection = styled.div`
   align-items: center;
 `;
 const Follow = styled.div`
-  justify-content: flex-end;
+  justify-content: center;
   align-items: flex-end;
   display: flex;
   width: 100%;
+  margin-top: 10px;
 `;
-const Para = styled.p`
-  font-size: 14px;
-  color: #3a8dff;
+const Para = styled.button`
+  font-size: 15px;
+  width: 5rem;
+  color: ${(props) => (props.follow ? "#fff" : "#3a8dff")};
   padding: 5px;
+  border: ${(props) => (props.follow ? "none" : "1px solid #3a8dff")};
+  background-color: ${(props) => (props.follow ? "#3a8dff" : "#fff")};
+  border-radius: 10px;
+  outline: none;
+  cursor: pointer;
+  &:hover {
+    background-color: #0d5ece;
+    color: ${(props) => !props.follow && "#fff"};
+  }
 `;
+
 const BrandCard = (props) => {
   return (
-    <Container>
+    <Container onClick={props.runAction} key={props.id}>
       <TopSection>
         <LogoSection>
           <img
@@ -79,8 +91,6 @@ const BrandCard = (props) => {
         </LogoSection>
         <BrandName>{props.name}</BrandName>
       </TopSection>
-
-      {/* <BrandName>{props.name}</BrandName> */}
       <BottomCard>
         <div
           style={{
@@ -95,7 +105,9 @@ const BrandCard = (props) => {
         </div>
       </BottomCard>
       <Follow>
-        <Para>follow</Para>
+        <Para follow={props.isFollowing} onClick={props.handleFollow}>
+          {props.isFollowing ? "following" : "follow"}
+        </Para>
       </Follow>
     </Container>
   );

@@ -2,7 +2,17 @@ import fb from "../assets/images/fb.png";
 import fyipe from "../assets/images/fyipe.jpeg";
 import coca from "../assets/images/coca-cola.jpeg";
 import img from "../assets/images/profile.png";
+
+let user = localStorage.getItem("user");
+let brand = localStorage.getItem("brand");
+if (user) {
+  user = JSON.parse(user);
+}
+if (brand) {
+  brand = JSON.parse(brand);
+}
 const brands = [
+  brand,
   {
     id: 1,
     name: "Coca-Cola",
@@ -37,7 +47,7 @@ const brands = [
     loyalty: 57353,
     role: "brand",
     image: fb,
-    users: [1, 2, 3, 4, 5, 6, 7, 8],
+    users: [1, 2, 3, 4, 9],
   },
   {
     id: 5,
@@ -45,7 +55,8 @@ const brands = [
     symbol: "Kr",
     role: "brand",
     loyalty: 4563,
-    image: [8, 7, 6, 5, 4, 2, 1],
+    image: coca,
+    users: [8, 7, 6, 4, 2, 1],
   },
   {
     id: 6,
@@ -56,85 +67,90 @@ const brands = [
     role: "brand",
     users: [1, 2, 8, 4, 5, 7],
   },
+  {
+    id: 7,
+    name: "Krealax",
+    symbol: "Kr",
+    role: "brand",
+    loyalty: 4563,
+    image: coca,
+    users: [8, 7, 6, 5, 4, 2, 1],
+  },
+  {
+    id: 8,
+    name: "Barcelona",
+    symbol: "Fcb",
+    loyalty: 24653,
+    image: fyipe,
+    role: "brand",
+    users: [1, 2, 4, 6, 9],
+  },
+  {
+    id: 9,
+    name: "Krealax",
+    symbol: "Kr",
+    role: "brand",
+    loyalty: 4563,
+    image: coca,
+    users: [8, 7, 6, 5, 4, 2],
+  },
 ];
 
 const users = [
+  user,
   {
     id: 1,
-    name: "Courage osemwengie",
+    firstName: "Courage",
+    lastName: "Osemwengie",
     email: "courageosemwengie@gmail.com",
     loyalty: 2342,
     image: img,
     password: 123456,
     role: "user",
-    brands: [
-      { name: "Coca-Cola", symbol: "CO", loyalty: 2342, image: coca, id: 1 },
-      { name: "Facebook", symbol: "FB", loyalty: 2532, image: fb, id: 2 },
-      { name: "Fyipe", symbol: "FI", loyalty: 5345, image: fyipe, id: 3 },
-      { name: "Netflix", symbol: "N", loyalty: 57353, image: fb, id: 4 },
-    ],
+    brands: [1, 3, 6, 4],
   },
   {
     id: 2,
-    name: "Faith aigbokhan",
-    email: "faith@gmail.com",
-    loyalty: 2342,
+    firstName: "Faith",
+    lastName: "Kiya",
+    email: "kiya@gmail.com",
+    loyalty: 324,
     image: fyipe,
     password: 123456,
     role: "user",
-    brands: [
-      { name: "Coca-Cola", symbol: "CO", loyalty: 2342, image: coca, id: 1 },
-      { name: "Facebook", symbol: "FB", loyalty: 2532, image: fb, id: 2 },
-      { name: "Fyipe", symbol: "FI", loyalty: 5345, image: fyipe, id: 3 },
-      { name: "Netflix", symbol: "N", loyalty: 57353, image: fb, id: 4 },
-    ],
+    brands: [2, 5, 4, 9],
   },
   {
     id: 3,
-    name: "Faith aigbokhan",
-    email: "faith@gmail.com",
+    firstName: "Barac",
+    lastName: "Joe",
+    email: "baracjoe@gmail.com",
     loyalty: 2342,
     image: img,
     password: 123456,
     role: "user",
-    brands: [
-      { name: "Coca-Cola", symbol: "CO", loyalty: 2342, image: coca, id: 1 },
-      { name: "Facebook", symbol: "FB", loyalty: 2532, image: fb, id: 2 },
-      { name: "Fyipe", symbol: "FI", loyalty: 5345, image: fyipe, id: 3 },
-      { name: "Netflix", symbol: "N", loyalty: 57353, image: fb, id: 4 },
-    ],
+    brands: [1, 5, 3, 7],
   },
   {
     id: 4,
-    name: "Faith aigbokhan",
-    email: "faith@gmail.com",
-    loyalty: 2342,
+    firstName: "Joe",
+    email: "Smith",
+    loyalty: 746,
     image: fyipe,
     role: "user",
     password: 123456,
-    brands: [
-      { name: "Coca-Cola", symbol: "CO", loyalty: 2342, image: coca, id: 1 },
-      { name: "Facebook", symbol: "FB", loyalty: 2532, image: fb, id: 2 },
-      { name: "Fyipe", symbol: "FI", loyalty: 5345, image: fyipe, id: 3 },
-      { name: "Netflix", symbol: "N", loyalty: 57353, image: fb, id: 4 },
-    ],
+    brands: [7, 5, 3, 9],
   },
   {
     id: 5,
-    name: "Faith aigbokhan",
-    email: "faith@gmail.com",
+    firstName: "Joy",
+    lastName: "Kilan",
+    email: "joy@gmail.com",
     loyalty: 2342,
     image: fyipe,
     role: "user",
     password: 123456,
-    brands: [
-      { name: "Coca-Cola", symbol: "CO", loyalty: 2342, image: coca, id: 1 },
-      { name: "Facebook", symbol: "FB", loyalty: 2532, image: fb, id: 2 },
-      { name: "Fyipe", symbol: "FI", loyalty: 5345, image: fyipe, id: 3 },
-      { name: "Netflix", symbol: "N", loyalty: 57353, image: fb, id: 4 },
-      { id: 5, name: "Krealax", symbol: "Kr", loyalty: 4563, image: coca },
-      { id: 6, name: "Barcelona", symbol: "Fcb", loyalty: 24653, image: fyipe },
-    ],
+    brands: [8, 6, 1, 3],
   },
   {
     id: 6,
@@ -144,45 +160,29 @@ const users = [
     password: 123456,
     role: "user",
     image: img,
-    brands: [
-      { name: "Coca-Cola", symbol: "CO", loyalty: 2342, image: coca, id: 1 },
-      { name: "Facebook", symbol: "FB", loyalty: 2532, image: fb, id: 2 },
-      { name: "Fyipe", symbol: "FI", loyalty: 5345, image: fyipe, id: 3 },
-      { id: 5, name: "Krealax", symbol: "Kr", loyalty: 4563, image: coca },
-      { id: 6, name: "Barcelona", symbol: "Fcb", loyalty: 24653, image: fyipe },
-      { name: "Netflix", symbol: "N", loyalty: 57353, image: fb, id: 4 },
-      { id: 5, name: "Krealax", symbol: "Kr", loyalty: 4563, image: coca },
-      { id: 6, name: "Barcelona", symbol: "Fcb", loyalty: 24653, image: fyipe },
-    ],
+    brands: [7, 3, 5, 2],
   },
   {
     id: 7,
-    name: "Courage osemwengie",
-    email: "courageosemwengie@gmail.com",
+    firstName: "Sharon",
+    lastName: "Eloghosa",
+    email: "sharon@gmail.com",
     loyalty: 2342,
     image: img,
     password: 123456,
     role: "user",
-    brands: [
-      { name: "Coca-Cola", symbol: "CO", loyalty: 2342, image: coca, id: 1 },
-      { name: "Fyipe", symbol: "FI", loyalty: 5345, image: fyipe, id: 3 },
-      { name: "Netflix", symbol: "N", loyalty: 57353, image: fb, id: 4 },
-    ],
+    brands: [3, 5, 2, 6],
   },
   {
     id: 8,
-    name: "Faith aigbokhan",
-    email: "faith@gmail.com",
+    firstName: "Blessing",
+    lastName: "Olumide",
+    email: "blessing06@gmail.com",
     loyalty: 2342,
     image: fyipe,
     role: "user",
     password: 123456,
-    brands: [
-      { name: "Facebook", symbol: "FB", loyalty: 2532, image: fb, id: 2 },
-      { name: "Coca-Cola", symbol: "CO", loyalty: 2342, image: coca, id: 1 },
-      { name: "Fyipe", symbol: "FI", loyalty: 5345, image: fyipe, id: 3 },
-      { name: "Netflix", symbol: "N", loyalty: 57353, image: fb, id: 4 },
-    ],
+    brands: [9, 4, 8, 1],
   },
 ];
 export { brands, users };

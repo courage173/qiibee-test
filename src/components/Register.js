@@ -90,13 +90,31 @@ const Register = (props) => {
         validationMessage: "",
         showlabel: true,
       },
-      name: {
+      firstName: {
         element: "fieldset",
         value: "",
         config: {
-          name: "name",
+          name: "firstName",
           type: "text",
-          label: "Name",
+          label: "First Name",
+          placeholder: "Enter your name",
+        },
+        validation: {
+          required: true,
+          email: false,
+        },
+        valid: false,
+        touched: false,
+        validationMessage: "",
+        showlabel: true,
+      },
+      lastName: {
+        element: "fieldset",
+        value: "",
+        config: {
+          name: "lastName",
+          type: "text",
+          label: "Last Name",
           placeholder: "Enter your name",
         },
         validation: {
@@ -268,8 +286,19 @@ const Register = (props) => {
     <>
       <FormContainer>
         <FormField
-          id={"email"}
-          formdata={userForm.formdata.email}
+          id={"firstName"}
+          formdata={userForm.formdata.firstName}
+          change={(element) => updateForm(element)}
+          styles={{
+            marginTop: "0 20px",
+          }}
+        />
+      </FormContainer>
+
+      <FormContainer>
+        <FormField
+          id={"lastName"}
+          formdata={userForm.formdata.lastName}
           change={(element) => updateForm(element)}
           styles={{
             marginTop: "0 20px",
@@ -278,15 +307,14 @@ const Register = (props) => {
       </FormContainer>
       <FormContainer>
         <FormField
-          id={"name"}
-          formdata={userForm.formdata.name}
+          id={"email"}
+          formdata={userForm.formdata.email}
           change={(element) => updateForm(element)}
           styles={{
             marginTop: "0 20px",
           }}
         />
       </FormContainer>
-
       <FormContainer>
         <FormField
           id={"password"}

@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import styled from "@emotion/styled";
 import img from "../assets/images/profile.png";
 import { withRouter } from "react-router-dom";
-import { history } from "../redux/store";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   width: 13rem;
@@ -74,19 +74,19 @@ const Sidebar = (props) => {
       const data = JSON.parse(localStorage.getItem("user"));
       data.auth = false;
       localStorage.setItem("user", JSON.stringify(data));
-      history.push("/login");
+      props.history.push("/login");
     } else {
       const data = JSON.parse(localStorage.getItem("brand"));
       data.auth = false;
       localStorage.setItem("brand", JSON.stringify(data));
-      history.push("/login");
+      props.history.push("/login");
     }
   };
   return (
     <Container>
       <ProfileSection>
         <Image src={img} />
-        <Para>{user.name}</Para>
+        <Para>{user.firstName + " " + user.lastName}</Para>
       </ProfileSection>
       <LinkWrap>
         {Links.map((link, i) => {
@@ -105,7 +105,15 @@ const Sidebar = (props) => {
               }}
               key={i}
             >
-              {link.name}
+              <Link
+                to={`/${link.to}`}
+                style={{
+                  textDecoration: "none",
+                  color: "#000",
+                }}
+              >
+                {link.name}
+              </Link>
             </LinkContainer>
           );
         })}
