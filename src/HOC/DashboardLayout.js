@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
 import Sidebar from "../components/Sidebar";
+import Backdrop from "../utils/Backdrop";
+import { connect } from "react-redux";
+import RewardModal from "../components/modals/RewardModal";
 
 const Container = styled.div`
   width: 100%;
@@ -101,28 +104,32 @@ const MenuBar = styled.div`
 `;
 
 const DashboardLayout = (props) => {
+  const [toggleSideBar, setToggle] = useState(false);
   return (
     <Container>
-      <Sidebar />
+      <RewardModal />
+      {toggleSideBar ? <Backdrop runAction={() => setToggle(false)} /> : null}
+      <Sidebar toggle={toggleSideBar} />
       <div
         style={{
           width: "100%",
         }}
       >
         <Header>
-          <MenuBars>
+          <MenuBars onClick={() => setToggle(!toggleSideBar)}>
             <MenuBar></MenuBar>
             <MenuBar></MenuBar>
             <MenuBar></MenuBar>
           </MenuBars>
 
           <HeadTextWrap>
-            <H4> Users</H4>
+            <H4> {props.title}</H4>
           </HeadTextWrap>
           <HeadText>
             <div>
               <H4>
-                Total Loyalty points - <RoyaltyPoint>578534543</RoyaltyPoint>
+                Total Loyalty points -{" "}
+                <RoyaltyPoint>{props.user && props.user.loyalty}</RoyaltyPoint>
               </H4>
             </div>
             {/* <Button>Reward Multiple</Button> */}
@@ -134,4 +141,9 @@ const DashboardLayout = (props) => {
   );
 };
 
-export default DashboardLayout;
+const mapStateToProps = (state) => {
+  return {
+    user: state.user.user,
+  };
+};
+export default connect(mapStateToProps)(DashboardLayout);

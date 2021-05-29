@@ -3,16 +3,7 @@ import fyipe from "../assets/images/fyipe.jpeg";
 import coca from "../assets/images/coca-cola.jpeg";
 import img from "../assets/images/profile.png";
 
-let user = localStorage.getItem("user");
-let brand = localStorage.getItem("brand");
-if (user) {
-  user = JSON.parse(user);
-}
-if (brand) {
-  brand = JSON.parse(brand);
-}
 const brands = [
-  brand,
   {
     id: 1,
     name: "Coca-Cola",
@@ -21,6 +12,7 @@ const brands = [
     role: "brand",
     image: coca,
     users: [1, 3, 4, 6, 7],
+    password: 123456,
   },
   {
     id: 2,
@@ -30,6 +22,7 @@ const brands = [
     role: "brand",
     image: fb,
     users: [1, 3, 5, 8],
+    password: 123456,
   },
   {
     id: 3,
@@ -39,6 +32,7 @@ const brands = [
     role: "brand",
     image: fyipe,
     users: [1, 2, 3, 4, 5, 6, 7, 8],
+    password: 123456,
   },
   {
     id: 4,
@@ -48,6 +42,7 @@ const brands = [
     role: "brand",
     image: fb,
     users: [1, 2, 3, 4, 9],
+    password: 123456,
   },
   {
     id: 5,
@@ -57,6 +52,7 @@ const brands = [
     loyalty: 4563,
     image: coca,
     users: [8, 7, 6, 4, 2, 1],
+    password: 123456,
   },
   {
     id: 6,
@@ -66,6 +62,7 @@ const brands = [
     image: fyipe,
     role: "brand",
     users: [1, 2, 8, 4, 5, 7],
+    password: 123456,
   },
   {
     id: 7,
@@ -75,6 +72,7 @@ const brands = [
     loyalty: 4563,
     image: coca,
     users: [8, 7, 6, 5, 4, 2, 1],
+    password: 123456,
   },
   {
     id: 8,
@@ -84,6 +82,7 @@ const brands = [
     image: fyipe,
     role: "brand",
     users: [1, 2, 4, 6, 9],
+    password: 123456,
   },
   {
     id: 9,
@@ -93,11 +92,11 @@ const brands = [
     loyalty: 4563,
     image: coca,
     users: [8, 7, 6, 5, 4, 2],
+    password: 123456,
   },
 ];
 
 const users = [
-  user,
   {
     id: 1,
     firstName: "Courage",
@@ -185,4 +184,15 @@ const users = [
     brands: [9, 4, 8, 1],
   },
 ];
+
+let user = localStorage.getItem("user");
+let brand = localStorage.getItem("brand");
+if (user) {
+  user = JSON.parse(user);
+  users.unshift(user);
+}
+if (brand) {
+  brand = JSON.parse(brand);
+  brands.unshift(brand);
+}
 export { brands, users };

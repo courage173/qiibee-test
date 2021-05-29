@@ -1,15 +1,15 @@
 import * as types from "../constants/ui";
 
 const initialState = {
-  toggleSideBar: false,
+  modalOpen: false,
   toggleForm: false,
 };
 const ui = (state = initialState, action) => {
   switch (action.type) {
-    case types.TOGGLE_SIDE_BAR:
+    case types.TOGGLE_MODAL:
       return {
         ...state,
-        toggleSideBar: !state.toggleSideBar,
+        modalOpen: !state.modalOpen,
       };
     case types.TOGGLE_FORM:
       return {

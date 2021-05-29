@@ -6,11 +6,11 @@ import * as types from "../constants/ui";
 //   };
 // };
 
-// export const toggleForm = () => {
-//   return {
-//     type: types.TOGGLE_FORM,
-//   };
-// };
+export const toggleModal = () => {
+  return {
+    type: types.TOGGLE_MODAL,
+  };
+};
 
 export const toggleForm = (data) => (dispatch) => {
   dispatch({

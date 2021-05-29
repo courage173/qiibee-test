@@ -33,7 +33,7 @@ export const loginUserFailure = (message) => ({
   payload: message,
 });
 
-//user
+//get user
 export const getUser = () => ({
   type: types.GET_USER_REQUEST,
 });
@@ -45,5 +45,21 @@ export const getUserSuccess = (payload) => ({
 
 export const getUserFailure = (message) => ({
   type: types.GET_USER_FAILURE,
+  payload: message,
+});
+
+//redeem loyalty point
+export const redeemPoint = (point) => ({
+  type: types.REDEEM_LOYALTY_REQUEST,
+  payload: point,
+});
+
+export const redeemPointSuccess = (payload) => ({
+  type: types.REDEEM_LOYALTY_SUCCESS,
+  payload,
+});
+
+export const redeemPointFailure = (message) => ({
+  type: types.REDEEM_LOYALTY_FAILURE,
   payload: message,
 });

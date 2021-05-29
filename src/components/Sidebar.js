@@ -12,8 +12,11 @@ const Container = styled.div`
   z-index: 999;
   position: fixed;
   background-color: #ffffff;
+  transition: 0.5s ease-in-out;
   @media (max-width: 760px) {
-    display: none;
+    /* display: ${(props) => (props.toggle ? "block" : "none")}; */
+    transform: ${(props) =>
+      props.toggle ? "translateX(0) " : "translateX(-110%)"};
   }
 `;
 
@@ -58,7 +61,7 @@ const LogoutButton = styled.div`
 const Sidebar = (props) => {
   const Links = [
     { name: "Dashboard", to: "dashboard" },
-    { name: "Profile", to: "profile" },
+    { name: "Profile", to: "dashboard/profile" },
     { name: "Logout", to: "logout" },
   ];
 
@@ -83,10 +86,14 @@ const Sidebar = (props) => {
     }
   };
   return (
-    <Container>
+    <Container toggle={props.toggle}>
       <ProfileSection>
-        <Image src={img} />
-        <Para>{user.firstName + " " + user.lastName}</Para>
+        <Image src={user.role === "brand" ? user.image : img} />
+        <Para>
+          {user.role === "user"
+            ? user.firstName + " " + user.lastName
+            : user.name}
+        </Para>
       </ProfileSection>
       <LinkWrap>
         {Links.map((link, i) => {

@@ -1,7 +1,8 @@
 import React from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import UserCard from "../../utils/UserCard";
 import styled from "@emotion/styled";
-import { users } from "../../utils/data";
 
 const UserSection = styled.div`
   width: 70%;
@@ -16,14 +17,26 @@ const UserSection = styled.div`
   }
 `;
 
-const UserList = () => {
+const UserList = (props) => {
+  const brandUsers = props.brand && props.brand.users;
+  const users = props.users;
+
+  const brandList =
+    users && users.filter((user) => brandUsers && brandUsers.includes(user.id));
   return (
     <UserSection>
-      {users.map((user, i) => (
+      {brandList.map((user, i) => (
         <UserCard {...user} key={user.loyalty + i} />
       ))}
     </UserSection>
   );
 };
+const mapStateToProps = (state) => {
+  return {
+    users: state.user.users,
+    brand: state.user.user,
+  };
+};
+const mapDispatchToProps = (dispatch) => bindActionCreators({}, dispatch);
 
-export default UserList;
+export default connect(mapStateToProps, mapDispatchToProps)(UserList);

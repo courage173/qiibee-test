@@ -17,7 +17,7 @@ const Container = styled.div`
 
 const UserDashboard = () => {
   return (
-    <DashboardLayout>
+    <DashboardLayout title={"Brands"}>
       <Container>
         <BrandList />
       </Container>

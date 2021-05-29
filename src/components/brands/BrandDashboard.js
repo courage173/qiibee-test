@@ -17,7 +17,7 @@ const Container = styled.div`
 
 const BrandDashboard = () => {
   return (
-    <DashboardLayout>
+    <DashboardLayout title={"Users"}>
       <Container>
         <UserList />
       </Container>

@@ -1,16 +1,5 @@
-// import { from, of, Observable,  } from "rxjs";
 import { history } from "../store";
-import {
-  // filter,
-  switchMap,
-  map,
-  catchError,
-  mergeMap,
-
-  // mergeMap,
-  // flatMap,
-  // merge,
-} from "rxjs/operators";
+import { switchMap, map, catchError, mergeMap } from "rxjs/operators";
 import { ofType } from "redux-observable";
 import * as types from "../constants/user";
 import {
@@ -20,15 +9,18 @@ import {
   loginUserFailure,
   getUserFailure,
   getUserSuccess,
+  redeemPointSuccess,
+  redeemPointFailure,
 } from "../actions/user";
-import { loginUser, registerUser, getUser } from "../request";
+import { loginUser, registerUser, getUser, redeemLoyalty } from "../request";
 
 export const register = (action$, store) => {
   const users = store.value.user.users;
+  const brands = store.value.brand.brands;
   return action$.pipe(
     ofType(types.REGISTER_USER_REQUEST),
     switchMap(async (action) => {
-      const user = await registerUser(action.payload, users);
+      const user = await registerUser(action.payload, users, brands);
 
       return { payload: user };
     }),
@@ -51,10 +43,11 @@ export const register = (action$, store) => {
 
 export const login = (action$, store) => {
   const users = store.value.user.users;
+  const brands = store.value.brand.brands;
   return action$.pipe(
     ofType(types.LOGIN_USER_REQUEST),
     mergeMap(async (action) => {
-      const user = await loginUser(action.payload, users);
+      const user = await loginUser(action.payload, users, brands);
       return { payload: user };
     }),
     map((action) => {
@@ -89,6 +82,25 @@ export const getUserDetails = (action$) => {
     }),
     catchError((error) => {
       return getUserFailure(error.message);
+    })
+  );
+};
+
+export const redeem = (action$) => {
+  return action$.pipe(
+    ofType(types.REDEEM_LOYALTY_REQUEST),
+    mergeMap(async (action) => {
+      const user = await redeemLoyalty(action.payload);
+      return { payload: user };
+    }),
+    map((action) => {
+      if (action.payload.error) {
+        return redeemPointFailure(action.payload);
+      }
+      return redeemPointSuccess(action.payload);
+    }),
+    catchError((error) => {
+      return redeemPointFailure(error.message);
     })
   );
 };

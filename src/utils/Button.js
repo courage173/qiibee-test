@@ -20,7 +20,7 @@ const Button = styled.button`
   }
   @media (max-width: 760px) {
     width: ${(props) => (props.mobileWidth ? props.mobileWidth : "8rem")};
-    height: 3.5rem;
+    height: ${(props) => (props.mobileHeight ? props.mobileHeight : "3.5rem")};
     font: ${(props) => props.Mfont && props.Mfont};
   }
 `;
@@ -37,6 +37,7 @@ const MyButton = (props) => {
       font={props.font}
       mobileWidth={props.mobileWidth}
       Mfont={props.Mfont}
+      mobileHeight={props.mobileHeight}
     >
       {props.title}
     </Button>

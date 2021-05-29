@@ -17,6 +17,11 @@ const initialState = {
     error: null,
     success: false,
   },
+  reedemLoyalty: {
+    requesting: false,
+    error: null,
+    success: false,
+  },
   user: {},
   brands: brands,
   users: users,
@@ -107,6 +112,31 @@ const user = (state = initialState, action) => {
         user: action.payload,
       });
     case types.GET_USER_FAILURE:
+      return Object.assign({}, state, {
+        getUser: {
+          requesting: false,
+          error: action.payload,
+          success: false,
+        },
+      });
+    case types.REDEEM_LOYALTY_REQUEST:
+      return Object.assign({}, state, {
+        getUser: {
+          requesting: true,
+          error: null,
+          success: false,
+        },
+      });
+    case types.REDEEM_LOYALTY_SUCCESS:
+      return Object.assign({}, state, {
+        getUser: {
+          requesting: false,
+          error: null,
+          success: true,
+        },
+        user: action.payload,
+      });
+    case types.REDEEM_LOYALTY_FAILURE:
       return Object.assign({}, state, {
         getUser: {
           requesting: false,

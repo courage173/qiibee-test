@@ -1,37 +1,53 @@
+import {} from "rxjs";
 import { randomNumberGenerator, generateId } from "../utils/helper";
-export const registerUser = async (data, list) => {
+export const registerUser = async (data, list, brands) => {
   const promise = await new Promise((resolve) => {
     if (data.role === "user") {
-      const user = list.some((user) => user.email === data.email);
+      const user = list.some(
+        (user) => user.email.toLowerCase() === data.email.toLowerCase()
+      );
       if (user) {
-        return resolve({ error: true, message: "user already exist" });
+        resolve({ error: true, message: "user already exist" });
       } else {
         //get automatically generated brand id's to the user will already be following some brands
         const brandIds = randomNumberGenerator(4);
         const id = generateId();
         data.id = id;
         data.brand = brandIds;
+        data.loyalty = 5424;
         return resolve(data);
       }
     } else {
-      const user = list.some((user) => user.name === data.name);
+      const user = brands.some(
+        (user) => user.name.toLowerCase() === data.name.toLowerCase()
+      );
       if (user) {
-        return resolve({ error: true, message: "brand already exist" });
+        resolve({ error: true, message: "brand already exist" });
       } else {
         //get automatically generated user id's to the brand users following it
         const userIds = randomNumberGenerator(5);
         const id = generateId();
         data.id = id;
         data.users = userIds;
-        return resolve(data);
+        data.loyalty = Number(data.loyalty);
+        console.log("e end here");
+        resolve(data);
       }
     }
   });
   return promise;
 };
-export const loginUser = async (data, users) => {
-  console.log(data);
-  const user = users.find((user) => user.email === data.email);
+export const loginUser = async (data, users, brands) => {
+  let user;
+  if (data.name && !data.email) {
+    user = brands.find(
+      (user) => user.name.toLowerCase() === data.name.toLowerCase()
+    );
+  } else if (!data.name && data.email) {
+    user = users.find(
+      (user) => user.email.toLowerCase() === data.email.toLowerCase()
+    );
+  }
 
   if (user) {
     if (String(user.password) !== String(data.password)) {
@@ -54,7 +70,7 @@ export const getUser = async () => {
         resolve({ error: true, message: "not authenticated" });
       }
     } else {
-      const brand = localStorage.getItem("user");
+      const brand = localStorage.getItem("brand");
       if (brand) {
         resolve(JSON.parse(brand));
       } else {
@@ -104,6 +120,22 @@ export const followBrand = async (brand) => {
     user.brand = brands;
     localStorage.setItem("user", JSON.stringify(user));
     resolve({ brandId, userId: user.id });
+  });
+  return promise;
+};
+
+export const redeemLoyalty = async (amount) => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  const promise = await new Promise((resolve) => {
+    const point = Number(user.loyalty);
+    if (Number(amount) > point) {
+      return resolve({ error: true, message: "insufficient balance" });
+    } else {
+      const result = point - Number(amount);
+      user.loyalty = result;
+      localStorage.setItem("user", JSON.stringify(user));
+      return resolve(user);
+    }
   });
   return promise;
 };
