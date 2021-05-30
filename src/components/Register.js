@@ -407,7 +407,14 @@ const Register = props => {
             </FormContainer>
             <LogoSection>Upload Profile Pic</LogoSection>
             <LogoSection>
-                <input type="file" name="logo" onChange={handleImage} />
+                <Label for="logo">Choose file...</Label>
+                {imageName && <span>{imageName}</span>}
+                <ImageInput
+                    type="file"
+                    name="logo"
+                    id="logo"
+                    onChange={handleImage}
+                />
                 {preview ? <LogoImage src={preview} alt="logo" /> : null}
             </LogoSection>
         </>

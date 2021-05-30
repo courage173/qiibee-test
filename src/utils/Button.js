@@ -20,7 +20,7 @@ const Button = styled.button`
         background-color: ${props => (props.secBg ? '#1058bb' : '#0d5ece')};
         color: #fff;
     }
-    @media (max-width: 760px) {
+    @media (max-width: 768px) {
         width: ${props => (props.mobileWidth ? props.mobileWidth : '8rem')};
         height: ${props =>
             props.mobileHeight ? props.mobileHeight : '3.5rem'};

@@ -60,6 +60,9 @@ const LinkContainer = styled.div`
 const LogoutButton = styled.div`
     margin-top: 150px;
     cursor: pointer;
+    @media (max-width: 768px) {
+        margin-top: 75px;
+    }
 `;
 const Sidebar = props => {
     const Links = [
