@@ -109,6 +109,7 @@ const ImageName = styled.input`
     border-bottom-right-radius: 7px;
     border-top-right-radius: 7px;
     width: 14rem;
+    outline: none;
     @media (max-width: 768px) {
         width: 11rem;
     }
@@ -364,11 +365,13 @@ const Register = props => {
                         change={element => updateForm(element)}
                     />
                 </FormContainer>
-                <LogoSection>Upload Logo - 2mb max</LogoSection>
+                <LogoSection>Upload Logo</LogoSection>
                 <LogoSection>
-                    <Label for="logo">Choose file</Label>
-                    <ImageName type="text" />
-                    {imageName && <span>{imageName}</span>}
+                    <UploadWrap>
+                        <Label for="logo">Choose file</Label>
+                        <ImageName type="text" value={imageName} />
+                    </UploadWrap>
+
                     <ImageInput
                         type="file"
                         name="logo"
