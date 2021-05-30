@@ -5,6 +5,7 @@ import Backdrop from '../utils/Backdrop';
 import { connect } from 'react-redux';
 import RewardModal from '../components/modals/RewardModal';
 import PropTypes from 'prop-types';
+import Fade from 'react-reveal/Fade';
 
 const Container = styled.div`
     width: 100%;
@@ -137,10 +138,11 @@ const DashboardLayout = props => {
                                 </RoyaltyPoint>
                             </H4>
                         </div>
-                        {/* <Button>Reward Multiple</Button> */}
                     </HeadText>
                 </Header>
-                <ChildrenWrap>{props.children}</ChildrenWrap>
+                <Fade>
+                    <ChildrenWrap>{props.children}</ChildrenWrap>
+                </Fade>
             </div>
         </Container>
     );
