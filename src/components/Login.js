@@ -24,6 +24,7 @@ const Container = styled.div`
     @media (max-width: 768px) {
         box-shadow: none;
         padding: 0;
+        background: #f5f5f5;
     }
 `;
 const HeadText = styled.h4`

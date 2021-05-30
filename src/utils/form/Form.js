@@ -29,6 +29,10 @@ const Input = styled.input`
     border: none;
     outline: none;
     margin-top: -3px;
+    font-size: 16px;
+    @media (max-width: 768px) {
+        box-shadow: #f5f5f5 0px 0px 0px 9999px inset;
+    }
 `;
 const Error = styled.div`
     color: red;

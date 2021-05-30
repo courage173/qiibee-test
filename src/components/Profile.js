@@ -233,6 +233,7 @@ const Profile = props => {
                                             onChange={e => {
                                                 setPoint(e.target.value);
                                             }}
+                                            style={{ fontSize: '16px' }}
                                         />
                                         <MyButton
                                             title="Redeem"

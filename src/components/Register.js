@@ -24,6 +24,7 @@ const Container = styled.div`
     @media (max-width: 768px) {
         box-shadow: none;
         padding: 0;
+        background: #f5f5f5;
     }
 `;
 const HeadText = styled.h4`
@@ -78,12 +79,29 @@ const LogoSection = styled.div`
     justify-content: space-between;
     align-items: center;
     margin-top: 5px;
+    @media (max-width: 768px) {
+        width: 19rem;
+        flex-direction: column;
+    }
 `;
 const LogoImage = styled.img`
     height: 5rem;
     width: 5rem;
     border-radius: 50%;
     object-fit: cover;
+`;
+const Label = styled.label`
+    display: block;
+    cursor: pointer;
+    @media (min-width: 768px) {
+        /* display: none; */
+    }
+`;
+const ImageInput = styled.input`
+    display: none;
+    @media (max-width: 768px) {
+        display: none;
+    }
 `;
 
 function getBase64Image(img) {
@@ -96,6 +114,7 @@ function getBase64Image(img) {
 }
 const Register = props => {
     const [preview, setPreview] = useState(null);
+    const [imageName, setImageName] = useState('');
 
     const [userForm, setUserForm] = useState({
         formdata: {
@@ -293,8 +312,9 @@ const Register = props => {
             URL.revokeObjectURL(preview);
         }
         const file = e.target.files[0];
-        const objectUrl = await getBase64Image(file);
-        setPreview(objectUrl);
+        setImageName(file.name);
+        const url = await getBase64Image(file);
+        setPreview(url);
     };
     const renderBrandForm = () => {
         return (
@@ -327,9 +347,16 @@ const Register = props => {
                         change={element => updateForm(element)}
                     />
                 </FormContainer>
-                <LogoSection>Upload Logo</LogoSection>
+                <LogoSection>Upload Logo - 2mb max</LogoSection>
                 <LogoSection>
-                    <input type="file" name="logo" onChange={handleImage} />
+                    <Label for="logo">Choose file...</Label>
+                    {imageName && <span>{imageName}</span>}
+                    <ImageInput
+                        type="file"
+                        name="logo"
+                        id="logo"
+                        onChange={handleImage}
+                    />
                     {preview ? <LogoImage src={preview} alt="logo" /> : null}
                 </LogoSection>
             </>
