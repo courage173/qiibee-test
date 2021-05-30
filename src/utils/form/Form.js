@@ -8,6 +8,7 @@ const FieldSet = styled.fieldset`
     height: 3rem;
     padding: 0 5px;
     width: 22rem;
+    border: 1.8px solid #b0b0b0;
     @media (max-width: 768px) {
         width: 19rem;
     }

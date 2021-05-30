@@ -76,9 +76,11 @@ const ButtonContainer = styled.div`
 const LogoSection = styled.div`
     width: 22rem;
     display: flex;
-    justify-content: space-between;
     align-items: center;
     margin-top: 5px;
+    margin-bottom: 5px;
+    flex-direction: column;
+    align-items: flex-start;
     @media (max-width: 768px) {
         width: 19rem;
         flex-direction: column;
@@ -89,13 +91,30 @@ const LogoImage = styled.img`
     width: 5rem;
     border-radius: 50%;
     object-fit: cover;
+    margin-top: 9px;
 `;
 const Label = styled.label`
     display: block;
     cursor: pointer;
-    @media (min-width: 768px) {
-        /* display: none; */
+    border: 1.8px solid #b0b0b0;
+    background-color: #3a8dff;
+    color: #fff;
+    padding: 10px;
+    border-bottom-left-radius: 7px;
+    border-top-left-radius: 7px;
+    width: 6rem;
+`;
+const ImageName = styled.input`
+    border: 1.8px solid #b0b0b0;
+    border-bottom-right-radius: 7px;
+    border-top-right-radius: 7px;
+    width: 14rem;
+    @media (max-width: 768px) {
+        width: 11rem;
     }
+`;
+const UploadWrap = styled.div`
+    display: flex;
 `;
 const ImageInput = styled.input`
     display: none;
@@ -221,7 +240,7 @@ const Register = props => {
                     placeholder: 'Enter brand symbol name',
                 },
                 validation: {
-                    required: false,
+                    required: true,
                     email: false,
                 },
                 valid: false,
@@ -283,14 +302,12 @@ const Register = props => {
     };
     const handleSubmit = () => {
         const form = switchForm ? brand.formdata : userForm.formdata;
-        form.image = preview || '';
-        if (!preview) {
-            return toast.error('please upload a logo');
-        }
         const isValid = isFormValid(form);
-
         if (isValid) {
             const data = generateData(form);
+            if (!preview) {
+                return toast.error('please upload a logo');
+            }
             data.image = preview;
             if (switchForm) {
                 data.role = 'brand';
@@ -299,7 +316,7 @@ const Register = props => {
             }
             props.registerUser(data);
         } else {
-            toast.error('form is not valid');
+            toast.error('form is not valid or missing some fields');
         }
     };
     //
@@ -349,7 +366,8 @@ const Register = props => {
                 </FormContainer>
                 <LogoSection>Upload Logo - 2mb max</LogoSection>
                 <LogoSection>
-                    <Label for="logo">Choose file...</Label>
+                    <Label for="logo">Choose file</Label>
+                    <ImageName type="text" />
                     {imageName && <span>{imageName}</span>}
                     <ImageInput
                         type="file"
@@ -407,8 +425,11 @@ const Register = props => {
             </FormContainer>
             <LogoSection>Upload Profile Pic</LogoSection>
             <LogoSection>
-                <Label for="logo">Choose file...</Label>
-                {imageName && <span>{imageName}</span>}
+                <UploadWrap>
+                    <Label for="logo">Choose file</Label>
+                    <ImageName type="text" value={imageName} />
+                </UploadWrap>
+
                 <ImageInput
                     type="file"
                     name="logo"

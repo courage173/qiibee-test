@@ -7,6 +7,7 @@ import bgImage from '../assets/images/bg-img.png';
 import MyButton from '../utils/Button';
 import { toggleForm } from '../redux/actions/ui';
 import PropTypes from 'prop-types';
+import brandIm from '../assets/images/brand-image.gif';
 
 const Container = styled.div`
     display: flex;
@@ -125,6 +126,13 @@ const ToggleWrap = styled.div`
     }
 `;
 
+const ImageWrap = styled.img`
+    width: 10rem;
+    height: 10rem;
+    border-radius: 50%;
+    display: none;
+`;
+
 const AuthLayout = props => {
     const [toggle, setToggle] = useState(false);
     useEffect(() => {
@@ -145,6 +153,7 @@ const AuthLayout = props => {
     return (
         <Container>
             <LeftSection>
+                <ImageWrap src={brandIm} alt="gif" />
                 <IntroText>Earn & redeem loyalty points</IntroText>
                 <IntroText>By following your favourite brands</IntroText>
             </LeftSection>
@@ -182,7 +191,7 @@ const AuthLayout = props => {
                         </Label>
                         <HeaderText>
                             {toggle
-                                ? 'Switch to create a user account'
+                                ? 'Switch to create a customer account'
                                 : 'Switch to create a brand account'}
                         </HeaderText>
                     </ToggleWrap>
