@@ -12,8 +12,8 @@ function AuthRoute(ComposedClass) {
       serverError: false,
     };
 
-    async componentDidMount() {
-      await this.props.getUser();
+    componentDidMount() {
+      this.props.getUser();
       ofActionSuccessful("GET_USER_SUCCESS").subscribe((action) => {
         const user = action && action.payload;
         if (!user.id || !user.auth) {

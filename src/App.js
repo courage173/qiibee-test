@@ -1,16 +1,16 @@
 import Routes from "./routes";
-import { Provider } from "react-redux";
 import { Router } from "react-router-dom";
 import { history } from "./redux/store";
-import { store } from "./redux/store";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 function App() {
   return (
     <div className="App">
-      <Provider store={store}>
-        <Router history={history}>
-          <Routes />
-        </Router>
-      </Provider>
+      <ToastContainer />
+      <Router history={history}>
+        <Routes />
+      </Router>
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import styled from "@emotion/styled";
-import img from "../assets/images/profile.png";
+// import img from "../assets/images/profile.png";
 import { withRouter } from "react-router-dom";
 import { Link } from "react-router-dom";
 
@@ -34,6 +34,7 @@ const Image = styled.img`
   height: 10rem;
   width: 10rem;
   border-radius: 50%;
+  object-fit: cover;
 `;
 const Para = styled.p`
   text-align: center;
@@ -88,7 +89,7 @@ const Sidebar = (props) => {
   return (
     <Container toggle={props.toggle}>
       <ProfileSection>
-        <Image src={user.role === "brand" ? user.image : img} />
+        <Image src={user.image} />
         <Para>
           {user.role === "user"
             ? user.firstName + " " + user.lastName

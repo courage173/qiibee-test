@@ -191,10 +191,17 @@ let user = localStorage.getItem("user");
 let brand = localStorage.getItem("brand");
 if (user) {
   user = JSON.parse(user);
-  users.unshift(user);
+  const isPresent = users.some((res) => res.id === user.id);
+  if (!isPresent) {
+    users.unshift(user);
+  }
 }
 if (brand) {
   brand = JSON.parse(brand);
-  brands.unshift(brand);
+
+  const isPresent = users.some((res) => res.id === brand.id);
+  if (!isPresent) {
+    brands.unshift(brand);
+  }
 }
 export { brands, users };

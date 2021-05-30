@@ -12,7 +12,7 @@ export const registerUser = async (data, list, brands) => {
         const brandIds = randomNumberGenerator(4);
         const id = generateId();
         data.id = id;
-        data.brand = brandIds;
+        data.brands = brandIds;
         data.loyalty = 5424;
         return resolve(data);
       }
@@ -24,7 +24,7 @@ export const registerUser = async (data, list, brands) => {
         resolve({ error: true, message: "brand already exist" });
       } else {
         //get automatically generated user id's to the brand users following it
-        const userIds = randomNumberGenerator(5);
+        const userIds = randomNumberGenerator(6);
         const id = generateId();
         data.id = id;
         data.users = userIds;
@@ -98,23 +98,24 @@ export const followBrand = async (brand) => {
   const authBrand = JSON.parse(localStorage.getItem("brand"));
   const promise = await new Promise((resolve) => {
     const brandId = Number(brand.id);
-    let brands = user.brand;
-    if (authBrand.id === brandId) {
+    let brands = user.brands;
+    if (authBrand && authBrand.id === brandId) {
       let brandUsers = authBrand.users;
+
       if (brandUsers.includes(user.id)) {
         brandUsers = brandUsers.filter((id) => Number(id) !== user.id);
       } else {
-        brandUsers = brandUsers.unshift(user.id);
+        brandUsers.unshift(user.id);
       }
       authBrand.users = brandUsers;
-      localStorage.setItem("brand", JSON.parse(authBrand));
+      localStorage.setItem("brand", JSON.stringify(authBrand));
     }
     if (brands.includes(brandId)) {
       brands = brands.filter((id) => Number(id) !== brandId);
     } else {
       brands.push(brandId);
     }
-    user.brand = brands;
+    user.brands = brands;
     localStorage.setItem("user", JSON.stringify(user));
     resolve({ brandId, userId: user.id });
   });
@@ -143,11 +144,14 @@ export const rewardLoyalty = async (payload, users) => {
   const promise = await new Promise((resolve) => {
     const amount = Number(payload.point);
     const userIds = payload.userIds;
-    let totalAdded = 0;
+    let totalAdded = userIds.length * amount;
+
+    if (totalAdded > Number(brandUser.loyalty)) {
+      return resolve({ error: true, message: "insufficient balance" });
+    }
     const newUsers = users.map((user) => {
       if (userIds.includes(user.id)) {
         const sum = user.loyalty + amount;
-        totalAdded += amount;
         user.loyalty = sum;
         if (authUser.id === user.id) {
           localStorage.setItem("user", user);

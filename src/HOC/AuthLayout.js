@@ -132,7 +132,7 @@ const AuthLayout = (props) => {
 
   const handleToggle = () => {
     setToggle(!toggle);
-    props.toggleForm();
+    props.toggleForm(toggle ? "user" : "brand");
   };
   return (
     <Container>

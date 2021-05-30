@@ -4,6 +4,7 @@ import { bindActionCreators } from "redux";
 import UserCard from "../../utils/UserCard";
 import styled from "@emotion/styled";
 import { toggleModal } from "../../redux/actions/ui";
+import { ofActionSuccessful } from "../../redux/epics/allEpic";
 
 const UserSection = styled.div`
   width: 70%;
@@ -37,6 +38,10 @@ const UserList = (props) => {
       tempIdx.push(id);
     }
     setSelectedUsers(tempIdx);
+    ofActionSuccessful("REWARD_LOYALTY_SUCCESS").subscribe((action) => {
+      setSelectedUsers([]);
+      setSelect(false);
+    });
   };
   const brandList =
     users && users.filter((user) => brandUsers && brandUsers.includes(user.id));

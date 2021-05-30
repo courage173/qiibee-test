@@ -39,7 +39,7 @@ const BrandList = (props) => {
     <Container>
       <div></div>
       {props.brands.map((brand) => {
-        const isFollowing = props.user.brand.includes(brand.id);
+        const isFollowing = props.user.brands.includes(brand.id);
         return (
           <BrandCard
             name={brand.name}

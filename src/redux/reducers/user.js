@@ -52,7 +52,7 @@ const user = (state = initialState, action) => {
         users:
           action.payload.role === "user"
             ? state.users.concat(action.payload)
-            : state.user,
+            : state.users,
         brands:
           action.payload.role === "brand"
             ? state.brands.concat(action.payload)

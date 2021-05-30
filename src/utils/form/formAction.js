@@ -10,6 +10,18 @@ export const validate = (element, formdata = []) => {
     const message = `${!valid ? "Password must be atleast 6 letters" : ""}`;
     error = !valid ? [valid, message] : error;
   }
+  if (element.config.name === "loyalty") {
+    let valid;
+    let message;
+    if (element.value.trim() === "") {
+      valid = false;
+      message = `${!valid ? "This field is required" : ""}`;
+    } else if (isNaN(element.value.trim())) {
+      valid = false;
+      message = `${!valid ? "This is not a valid number" : ""}`;
+    }
+    error = !valid ? [valid, message] : error;
+  }
   if (element.validation.confirm) {
     const valid =
       element.value.trim() === formdata[element.validation.confirm].value;
@@ -62,6 +74,9 @@ export const isFormValid = (formdata) => {
   let formIsValid = true;
 
   for (const key in formdata) {
+    if (key === "image") {
+      formIsValid = formdata[key] !== "" && formIsValid;
+    }
     if (key === "email") {
       const valid = /\S+@\S+\.\S+/.test(formdata[key].value);
       formIsValid =

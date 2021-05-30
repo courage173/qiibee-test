@@ -3,7 +3,7 @@ import { createEpicMiddleware } from "redux-observable";
 import { routerMiddleware } from "react-router-redux";
 import { createLogger } from "redux-logger";
 import thunk from "redux-thunk";
-import { createBrowserHistory, createMemoryHistory } from "history";
+import { createBrowserHistory } from "history";
 
 import rootReducer from "./reducers/rootReducer";
 import { rootEpic } from "./epics";
@@ -11,17 +11,7 @@ import { rootEpic } from "./epics";
 const epicMiddleware = createEpicMiddleware();
 const logger = createLogger();
 
-const createHistory = (initialEntries = ["/"]) => {
-  if (process.env.BROWSER) {
-    const history = window.browserHistory || createBrowserHistory();
-    if (process.env.NODE_ENV === "development" && !window.browserHistory) {
-      window.browserHistory = history;
-    }
-    return history;
-  }
-  return createMemoryHistory({ initialEntries });
-};
-export const history = createHistory();
+export const history = createBrowserHistory();
 
 const middleware = [epicMiddleware, thunk, routerMiddleware(history), logger];
 const composeEnhancers =

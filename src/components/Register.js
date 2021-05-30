@@ -8,6 +8,7 @@ import { update, generateData, isFormValid } from "../utils/form/formAction";
 import styled from "@emotion/styled";
 import MyButton from "../utils/Button";
 import { registerUser } from "../redux/actions/user";
+import { toast } from "react-toastify";
 
 const Container = styled.div`
   padding: 30px;
@@ -69,7 +70,23 @@ const ButtonContainer = styled.div`
     align-items: center;
   }
 `;
+
+const LogoSection = styled.div`
+  width: 22rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 5px;
+`;
+const LogoImage = styled.img`
+  height: 5rem;
+  width: 5rem;
+  border-radius: 50%;
+  object-fit: cover;
+`;
 const Register = (props) => {
+  const [preview, setPreview] = useState(null);
+
   const [userForm, setUserForm] = useState({
     formdata: {
       email: {
@@ -220,11 +237,12 @@ const Register = (props) => {
       },
     },
   });
+  const switchForm = props.switchForm === "brand";
 
   const updateForm = (element) => {
-    const formdata = props.switchForm ? brand.formdata : userForm.formdata;
+    const formdata = switchForm ? brand.formdata : userForm.formdata;
     const newFormdata = update(element, formdata, "register");
-    props.switchForm
+    switchForm
       ? setBrandForm({
           formError: false,
           formdata: newFormdata,
@@ -235,18 +253,38 @@ const Register = (props) => {
         });
   };
   const handleSubmit = () => {
-    const form = props.switchForm ? brand.formdata : userForm.formdata;
+    const form = switchForm ? brand.formdata : userForm.formdata;
+    form.image = preview || "";
+    if (!preview) {
+      return toast.error("please upload a logo");
+    }
     const isValid = isFormValid(form);
 
     if (isValid) {
       const data = generateData(form);
-      if (props.switchForm) {
+      data.image = preview;
+      if (switchForm) {
         data.role = "brand";
       } else {
         data.role = "user";
       }
       props.registerUser(data);
+    } else {
+      toast.error("form is not valid");
     }
+  };
+  //
+  const handleImage = (e) => {
+    if (!e.target.files || e.target.files.length === 0) {
+      setPreview(null);
+      return;
+    }
+    if (preview) {
+      URL.revokeObjectURL(preview);
+    }
+    const file = e.target.files[0];
+    const objectUrl = URL.createObjectURL(file);
+    setPreview(objectUrl);
   };
   const renderBrandForm = () => {
     return (
@@ -279,6 +317,11 @@ const Register = (props) => {
             change={(element) => updateForm(element)}
           />
         </FormContainer>
+        <LogoSection>Upload Logo</LogoSection>
+        <LogoSection>
+          <input type="file" name="logo" onChange={handleImage} />
+          {preview ? <LogoImage src={preview} alt="logo" /> : null}
+        </LogoSection>
       </>
     );
   };
@@ -325,17 +368,20 @@ const Register = (props) => {
           }}
         />
       </FormContainer>
+      <LogoSection>Upload Profile Pic</LogoSection>
+      <LogoSection>
+        <input type="file" name="logo" onChange={handleImage} />
+        {preview ? <LogoImage src={preview} alt="logo" /> : null}
+      </LogoSection>
     </>
   );
   return (
     <AuthLayout>
       <Container>
         <TopSection>
-          <HeadText>
-            Create a {props.switchForm ? "brand" : "user"} account
-          </HeadText>
+          <HeadText>Create a {switchForm ? "brand" : "user"} account</HeadText>
         </TopSection>
-        {props.switchForm ? renderBrandForm() : renderUserForm()}
+        {switchForm ? renderBrandForm() : renderUserForm()}
         <ButtonContainer>
           <MyButton
             title="Sign up"

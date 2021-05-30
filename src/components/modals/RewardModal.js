@@ -8,7 +8,7 @@ import { rewardLoyalty } from "../../redux/actions/user";
 
 const Container = styled.div`
   margin: 0 auto;
-  position: absolute;
+  position: fixed;
   width: 100%;
   height: 100%;
   background-color: transparent;
@@ -77,6 +77,8 @@ function RewardModal(props) {
   const [point, setPoint] = useState(0);
   const handleRewardLoyalty = () => {
     props.rewardLoyalty({ point, userIds: props.users });
+    props.toggleModal([]);
+    setPoint(0);
   };
   const { modalOpen } = props;
 

@@ -141,11 +141,12 @@ const Login = (props) => {
       },
     },
   });
+  const switchForm = props.switchForm === "brand";
 
   const updateForm = (element) => {
-    const formdata = props.switchForm ? brand.formdata : userForm.formdata;
+    const formdata = switchForm ? brand.formdata : userForm.formdata;
     const newFormdata = update(element, formdata, "register");
-    props.switchForm
+    switchForm
       ? setBrandForm({
           formError: false,
           formdata: newFormdata,
@@ -157,7 +158,7 @@ const Login = (props) => {
   };
 
   const handleSubmit = async () => {
-    const form = props.switchForm ? brand.formdata : userForm.formdata;
+    const form = switchForm ? brand.formdata : userForm.formdata;
     const isValid = isFormValid(form);
     if (isValid) {
       const data = generateData(form);
@@ -215,7 +216,7 @@ const Login = (props) => {
         <TopSection>
           <HeadText>Welcome back</HeadText>
         </TopSection>
-        {props.switchForm ? renderBrandForm() : renderUserForm()}
+        {switchForm ? renderBrandForm() : renderUserForm()}
 
         <ButtonContainer>
           <MyButton

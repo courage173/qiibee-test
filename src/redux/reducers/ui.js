@@ -2,7 +2,7 @@ import * as types from "../constants/ui";
 
 const initialState = {
   modalOpen: false,
-  toggleForm: false,
+  toggleForm: "user",
   users: [],
 };
 const ui = (state = initialState, action) => {
@@ -16,7 +16,7 @@ const ui = (state = initialState, action) => {
     case types.TOGGLE_FORM:
       return {
         ...state,
-        toggleForm: !state.toggleForm,
+        toggleForm: action.payload,
       };
     default:
       return { ...state };

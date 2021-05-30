@@ -1,4 +1,5 @@
 import { history } from "../store";
+import { toast } from "react-toastify";
 import { switchMap, map, catchError, mergeMap } from "rxjs/operators";
 import { ofType } from "redux-observable";
 import * as types from "../constants/user";
@@ -34,13 +35,20 @@ export const register = (action$, store) => {
     }),
     map((action) => {
       if (action.payload.error) {
+        toast.error(action.payload.message);
         return registerUserFailure(action.payload);
       }
       const user = action.payload;
       user.auth = true;
+      //remove the previous user image to save memory
+      const prevUser = JSON.parse(localStorage.getItem(user.role));
+      if (prevUser && prevUser.image) {
+        URL.revokeObjectURL(prevUser.image);
+      }
       localStorage.setItem(user.role, JSON.stringify(user));
       localStorage.setItem("lastUser", user.role);
       history.push("/dashboard");
+      toast.success("signup successful");
       return registerUserSuccess(action.payload);
     }),
     catchError((error) => {
@@ -60,6 +68,7 @@ export const login = (action$, store) => {
     }),
     map((action) => {
       if (action.payload.error) {
+        toast.error(action.payload.message);
         return loginUserFailure(action.payload);
       }
       const user = action.payload;
@@ -67,6 +76,7 @@ export const login = (action$, store) => {
       localStorage.setItem(user.role, JSON.stringify(user));
       localStorage.setItem("lastUser", user.role);
       history.push("/dashboard");
+      toast.success("login successful");
       return loginUserSuccess(action.payload);
     }),
     catchError((error) => {
@@ -103,8 +113,10 @@ export const redeem = (action$) => {
     }),
     map((action) => {
       if (action.payload.error) {
+        toast.error(action.payload.message);
         return redeemPointFailure(action.payload);
       }
+      toast.success("redeem succesfully");
       return redeemPointSuccess(action.payload);
     }),
     catchError((error) => {
@@ -124,8 +136,10 @@ export const reward = (action$, store) => {
     }),
     map((action) => {
       if (action.payload.error) {
+        toast.error(action.payload.message);
         return rewardPointFailure(action.payload);
       }
+      toast.success("rewarded users succesfully");
       return rewardPointSuccess(action.payload);
     }),
     catchError((error) => {

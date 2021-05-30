@@ -7,8 +7,9 @@ export const toggleModal = (id) => {
   };
 };
 
-export const toggleForm = () => (dispatch) => {
+export const toggleForm = (payload) => (dispatch) => {
   dispatch({
     type: types.TOGGLE_FORM,
+    payload,
   });
 };
