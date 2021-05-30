@@ -2,6 +2,14 @@ import fb from '../assets/images/fb.png';
 import fyipe from '../assets/images/fyipe.jpeg';
 import coca from '../assets/images/coca-cola.jpeg';
 import img from '../assets/images/profile.png';
+import user1 from '../assets/images/user1.png';
+import user2 from '../assets/images/user2.png';
+import user3 from '../assets/images/user3.png';
+import user4 from '../assets/images/user4.png';
+import user5 from '../assets/images/user5.png';
+import user6 from '../assets/images/user6.jpg';
+import user7 from '../assets/images/user7.jpeg';
+import user8 from '../assets/images/user8.jpeg';
 
 const brands = [
     {
@@ -103,7 +111,7 @@ const users = [
         lastName: 'Osemwengie',
         email: 'courageosemwengie@gmail.com',
         loyalty: 2342,
-        image: img,
+        image: user6,
         password: 123456,
         role: 'user',
         brands: [1, 3, 6, 4],
@@ -114,7 +122,7 @@ const users = [
         lastName: 'Kiya',
         email: 'kiya@gmail.com',
         loyalty: 324,
-        image: fyipe,
+        image: img,
         password: 123456,
         role: 'user',
         brands: [2, 5, 4, 9],
@@ -125,7 +133,7 @@ const users = [
         lastName: 'Joe',
         email: 'baracjoe@gmail.com',
         loyalty: 2342,
-        image: img,
+        image: user3,
         password: 123456,
         role: 'user',
         brands: [1, 5, 3, 7],
@@ -136,7 +144,7 @@ const users = [
         lastName: 'Smith',
         email: 'joesmith@gmail.com',
         loyalty: 746,
-        image: fyipe,
+        image: user4,
         role: 'user',
         password: 123456,
         brands: [7, 5, 3, 9],
@@ -147,7 +155,7 @@ const users = [
         lastName: 'Kilan',
         email: 'joy@gmail.com',
         loyalty: 2342,
-        image: fyipe,
+        image: user2,
         role: 'user',
         password: 123456,
         brands: [8, 6, 1, 3],
@@ -160,7 +168,7 @@ const users = [
         loyalty: 2342,
         password: 123456,
         role: 'user',
-        image: img,
+        image: user1,
         brands: [7, 3, 5, 2],
     },
     {
@@ -169,7 +177,7 @@ const users = [
         lastName: 'Eloghosa',
         email: 'sharon@gmail.com',
         loyalty: 2342,
-        image: img,
+        image: user5,
         password: 123456,
         role: 'user',
         brands: [3, 5, 2, 6],
@@ -180,7 +188,18 @@ const users = [
         lastName: 'Olumide',
         email: 'blessing06@gmail.com',
         loyalty: 2342,
-        image: fyipe,
+        image: user7,
+        role: 'user',
+        password: 123456,
+        brands: [9, 4, 8, 1],
+    },
+    {
+        id: 9,
+        firstName: 'Horace',
+        lastName: 'Akpan',
+        email: 'horace@gmail.com',
+        loyalty: 2342,
+        image: user8,
         role: 'user',
         password: 123456,
         brands: [9, 4, 8, 1],

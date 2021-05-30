@@ -27,4 +27,6 @@ const Routes = () => {
     );
 };
 
+Routes.displayName = 'Routes';
+
 export default Routes;

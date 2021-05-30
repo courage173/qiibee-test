@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { history } from '../redux/store';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -127,6 +127,13 @@ const ToggleWrap = styled.div`
 
 const AuthLayout = props => {
     const [toggle, setToggle] = useState(false);
+    useEffect(() => {
+        if (props.switchForm === 'brand') {
+            setToggle(true);
+        } else {
+            setToggle(false);
+        }
+    });
     const handleRoute = () => {
         history.push(props.login ? '/' : '/login');
     };
@@ -209,8 +216,15 @@ AuthLayout.propTypes = {
     toggleForm: PropTypes.func,
     login: PropTypes.string,
     children: PropTypes.node,
+    switchForm: PropTypes.string,
+};
+
+const mapStateToProps = state => {
+    return {
+        switchForm: state.ui.toggleForm,
+    };
 };
 const mapDispatchToProps = dispatch =>
     bindActionCreators({ toggleForm }, dispatch);
 
-export default connect(null, mapDispatchToProps)(AuthLayout);
+export default connect(mapStateToProps, mapDispatchToProps)(AuthLayout);

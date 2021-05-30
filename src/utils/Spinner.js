@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import PropTypes from 'prop-types';
 
 const Container = styled.div`
     margin-top: ${props => props.marginTop && props.marginTop};
@@ -62,4 +63,8 @@ const Spinner = props => {
     );
 };
 
+Spinner.displayName = 'Spinner';
+Spinner.propTypes = {
+    marginTop: PropTypes.string,
+};
 export default Spinner;

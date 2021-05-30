@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import PropTypes from 'prop-types';
 
 const Container = styled.div`
     width: 15rem;
@@ -114,4 +115,14 @@ const BrandCard = props => {
     );
 };
 
+BrandCard.displayName = 'BrandCard';
+BrandCard.propTypes = {
+    isFollowing: PropTypes.bool,
+    handleFollow: PropTypes.func,
+    loyalty: PropTypes.string,
+    name: PropTypes.string,
+    runAction: PropTypes.func,
+    id: PropTypes.string,
+    image: PropTypes.string,
+};
 export default BrandCard;

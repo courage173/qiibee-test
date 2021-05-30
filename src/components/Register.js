@@ -85,6 +85,15 @@ const LogoImage = styled.img`
     border-radius: 50%;
     object-fit: cover;
 `;
+
+function getBase64Image(img) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+        reader.readAsDataURL(img);
+    });
+}
 const Register = props => {
     const [preview, setPreview] = useState(null);
 
@@ -275,7 +284,7 @@ const Register = props => {
         }
     };
     //
-    const handleImage = e => {
+    const handleImage = async e => {
         if (!e.target.files || e.target.files.length === 0) {
             setPreview(null);
             return;
@@ -284,7 +293,7 @@ const Register = props => {
             URL.revokeObjectURL(preview);
         }
         const file = e.target.files[0];
-        const objectUrl = URL.createObjectURL(file);
+        const objectUrl = await getBase64Image(file);
         setPreview(objectUrl);
     };
     const renderBrandForm = () => {

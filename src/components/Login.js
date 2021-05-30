@@ -10,6 +10,7 @@ import styled from '@emotion/styled';
 import MyButton from '../utils/Button';
 import { loginUser } from '../redux/actions/user';
 import PropTypes from 'prop-types';
+import { toast } from 'react-toastify';
 
 const Container = styled.div`
     padding: 30px;
@@ -164,6 +165,8 @@ const Login = props => {
         if (isValid) {
             const data = generateData(form);
             await props.loginUser(data);
+        } else {
+            toast.error('form is invalid');
         }
     };
     const renderBrandForm = () => {
@@ -228,6 +231,7 @@ const Login = props => {
                         runAction={handleSubmit}
                         mobileWidth={'19rem'}
                         font={'17px'}
+                        requesting={props.requesting}
                     />
                 </ButtonContainer>
                 <AccountWrap>
@@ -253,11 +257,13 @@ Login.displayName = 'Login';
 Login.propTypes = {
     switchForm: PropTypes.string,
     loginUser: PropTypes.func,
+    requesting: PropTypes.bool,
 };
 const mapStateToProps = state => {
     return {
         switchForm: state.ui.toggleForm,
         login: state.user.login,
+        requesting: state.user.login.requesting,
     };
 };
 

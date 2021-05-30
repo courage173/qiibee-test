@@ -35,7 +35,7 @@ const Error = styled.div`
     font-size: 12px;
     margin-top: 4px;
 `;
-function FormField({ formdata, change, id, altFieldSet }) {
+function FormField({ formdata, change, id }) {
     const showError = () => {
         let errorMessage = null;
 

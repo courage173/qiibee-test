@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import PropTypes from 'prop-types';
 
 const Container = styled.div`
     position: fixed;
@@ -12,4 +13,8 @@ const Backdrop = props => {
     return <Container onClick={props.runAction}></Container>;
 };
 
+Backdrop.displayName = 'Backdrop';
+Backdrop.propTypes = {
+    runAction: PropTypes.func,
+};
 export default Backdrop;

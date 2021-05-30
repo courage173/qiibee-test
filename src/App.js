@@ -1,3 +1,4 @@
+import React from 'react';
 import Routes from './routes';
 import { Router } from 'react-router-dom';
 import { history } from './redux/store';
@@ -14,5 +15,5 @@ function App() {
         </div>
     );
 }
-
+App.displayName = 'App';
 export default App;

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import MyButton from './Button';
+import PropTypes from 'prop-types';
 
 const Wrap = styled.div`
     height: 3.5rem;
@@ -99,4 +100,16 @@ const UserCard = props => {
     );
 };
 
+UserCard.displayName = 'UserCard';
+UserCard.propTypes = {
+    runAction: PropTypes.func,
+    selectBox: PropTypes.bool,
+    handleSetUser: PropTypes.func,
+    id: PropTypes.string,
+    image: PropTypes.string,
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
+    email: PropTypes.string,
+    loyalty: PropTypes.string,
+};
 export default UserCard;

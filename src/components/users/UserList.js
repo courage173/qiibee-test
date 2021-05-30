@@ -5,6 +5,7 @@ import UserCard from '../../utils/UserCard';
 import styled from '@emotion/styled';
 import { toggleModal } from '../../redux/actions/ui';
 import { ofActionSuccessful } from '../../redux/epics/allEpic';
+import PropTypes from 'prop-types';
 
 const UserSection = styled.div`
     width: 70%;
@@ -38,7 +39,7 @@ const UserList = props => {
             tempIdx.push(id);
         }
         setSelectedUsers(tempIdx);
-        ofActionSuccessful('REWARD_LOYALTY_SUCCESS').subscribe(action => {
+        ofActionSuccessful('REWARD_LOYALTY_SUCCESS').subscribe(() => {
             setSelectedUsers([]);
             setSelect(false);
         });
@@ -85,6 +86,14 @@ const UserList = props => {
             ))}
         </UserSection>
     );
+};
+
+UserList.displayName = 'UserList';
+
+UserList.propTypes = {
+    users: PropTypes.array,
+    brand: PropTypes.object,
+    toggleModal: PropTypes.func,
 };
 const mapStateToProps = state => {
     return {
