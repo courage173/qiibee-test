@@ -59,6 +59,7 @@ export const loginUser = async (data, users, brands) => {
 
 export const getUser = async () => {
     const promise = await new Promise(resolve => {
+        //this is to get details of the last logged in user when page is reloaded
         const lastLoggedIn = localStorage.getItem('lastUser');
         if (lastLoggedIn === 'user') {
             const user = localStorage.getItem('user');
@@ -99,6 +100,8 @@ export const followBrand = async brand => {
     const promise = await new Promise(resolve => {
         const brandId = Number(brand.id);
         let brands = user.brands;
+        //check if the brand being followed is the currently authenticated brand
+        //this is so we can update the users following the brand on local storage
         if (authBrand && authBrand.id === brandId) {
             let brandUsers = authBrand.users;
 
@@ -144,22 +147,27 @@ export const rewardLoyalty = async (payload, users) => {
     const promise = await new Promise(resolve => {
         const amount = Number(payload.point);
         const userIds = payload.userIds;
+        //get total amount of points being rewarded
         const totalAdded = userIds.length * amount;
-
+        //check if balance is sufficient
         if (totalAdded > Number(brandUser.loyalty)) {
             return resolve({ error: true, message: 'insufficient balance' });
         }
+        //add it to the new users
         const newUsers = users.map(user => {
             if (userIds.includes(user.id)) {
                 const sum = user.loyalty + amount;
                 user.loyalty = sum;
+                //check if the auth user is among those being award
+                //if it is update local storage
                 if (authUser.id === user.id) {
-                    localStorage.setItem('user', user);
+                    localStorage.setItem('user', JSON.stringify(user));
                 }
                 return user;
             }
             return user;
         });
+        //update the brand with its new remaining total
         const newPoint = Number(brandUser.loyalty) - totalAdded;
         brandUser.loyalty = newPoint;
         localStorage.setItem('brand', JSON.stringify(brandUser));
