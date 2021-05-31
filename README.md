@@ -32,6 +32,6 @@ Builds the application for production to the `build` folder
 A live version of the app exist at `https://qiibee-test.netlify.app`
 You can create a customer or a brand account. or
 
--   You can login as a brand with the following details `email-courageosemwengie@gmail.com` and `password: 123456`
+-   You can login as a customer with the following details `email-courageosemwengie@gmail.com` and `password: 123456`
 
--   You can also also login as a customer with the following details `name-fyipe` and `password: 123456`
+-   You can login as a brand with the following details `name-fyipe` and `password: 123456`
