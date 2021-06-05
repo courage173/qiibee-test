@@ -146,6 +146,9 @@ export const rewardLoyalty = async (payload, users) => {
     const brandUser = JSON.parse(localStorage.getItem('brand'));
     const promise = await new Promise(resolve => {
         const amount = Number(payload.point);
+        if (amount <= 0) {
+            return resolve({ error: true, message: 'invalid value' });
+        }
         const userIds = payload.userIds;
         //get total amount of points being rewarded
         const totalAdded = userIds.length * amount;
