@@ -171,7 +171,7 @@ export const rewardLoyalty = async (payload, users) => {
         const newPoint = Number(brandUser.loyalty) - totalAdded;
         brandUser.loyalty = newPoint;
         localStorage.setItem('brand', JSON.stringify(brandUser));
-        resolve({ users: newUsers, point: newPoint });
+        return resolve({ users: newUsers, point: newPoint });
     });
     return promise;
 };
