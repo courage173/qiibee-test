@@ -1,5 +1,5 @@
 import * as types from '../constants/user';
-import { users, brands } from '../../utils/data';
+import { brands, users } from '../../utils/data';
 
 const initialState = {
     register: {
