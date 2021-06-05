@@ -160,7 +160,7 @@ export const rewardLoyalty = async (payload, users) => {
                 user.loyalty = sum;
                 //check if the auth user is among those being award
                 //if it is update local storage
-                if (authUser.id === user.id) {
+                if (authUser && authUser.id === user.id) {
                     localStorage.setItem('user', JSON.stringify(user));
                 }
                 return user;
